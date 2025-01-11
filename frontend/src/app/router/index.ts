@@ -6,27 +6,43 @@ const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
 		{
+			path: '/',
+			redirect: { name: 'login' },
+		},
+		{
 			path: '/login',
 			name: 'login',
 			component: LoginView, // start page
+			meta: {
+				disabledForAuthUsers: true, // Authenticated users don't have access to such pages
+				title: 'Вход в аккаунт',
+			},
 		},
 		{
 			path: '/register',
 			name: 'register',
 			component: () => import('@/pages/RegisterView.vue'),
+			meta: {
+				disabledForAuthUsers: true,
+				title: 'Создание аккаунта',
+			},
 		},
 		{
 			path: '/projects',
 			name: 'projects',
 			component: () => import('@/pages/ProjectsView.vue'), // main page
 			meta: {
-				requiresAuth: true,
+				requiresAuth: true, // Only for authenticated users
+				title: 'Проекты',
 			},
 		},
 		{
 			path: '/:catchAll(.*)',
 			name: 'not-found',
 			component: () => import('@/pages/NotFoundView.vue'),
+			meta: {
+				title: 'Страница не найдена',
+			},
 		},
 	],
 });
@@ -48,10 +64,22 @@ const getCurrentUser = () => {
 // Check for user authorization
 router.beforeEach(async (to, _from, next) => {
 	if (to.matched.some(record => record.meta.requiresAuth)) {
-		// requires authentication
-		if (await getCurrentUser()) next(); // proceed
-		else next('/login'); // authenticate first
-	} else next(); // no authentication required
+		// Requires authentication
+		if (await getCurrentUser())
+			proceed(); // Proceed for authenticated users
+		else next('/login'); // Authenticate first
+	} else if (
+		to.matched.some(record => record.meta.disabledForAuthUsers) &&
+		(await getCurrentUser())
+	) {
+		next('/projects'); // Some pages (login, register) aren't accessible for authenticated users
+	} else proceed();
+
+	// Proceed and apply a window title based on the current route
+	function proceed() {
+		document.title = (to.meta.title as string) || 'NA';
+		next();
+	}
 });
 
 export default router;
