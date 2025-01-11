@@ -17,9 +17,17 @@
 		scroll-behavior: smooth;
 	}
 
+	html,
+	body,
+	#app {
+		height: 100%;
+	}
+
 	body {
 		font-family: 'IBM Plex Mono', serif;
 		font-weight: 500;
 		font-style: normal;
+
+		@apply text-content;
 	}
 }

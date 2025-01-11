@@ -37,6 +37,24 @@ const router = createRouter({
 			},
 		},
 		{
+			path: '/new-project',
+			name: 'new-project',
+			component: () => import('@/pages/NewProjectView.vue'),
+			meta: {
+				requiresAuth: true,
+				title: 'Новый проект',
+			},
+		},
+		{
+			path: '/profile',
+			name: 'profile',
+			component: () => import('@/pages/ProfileView.vue'),
+			meta: {
+				requiresAuth: true,
+				title: 'Мой профиль',
+			},
+		},
+		{
 			path: '/:catchAll(.*)',
 			name: 'not-found',
 			component: () => import('@/pages/NotFoundView.vue'),

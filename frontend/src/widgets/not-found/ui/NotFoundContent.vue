@@ -1,5 +1,5 @@
 <template>
-	<div
+	<section
 		class="w-screen h-screen bg-primary flex flex-col justify-center items-center"
 	>
 		<h1
@@ -11,8 +11,8 @@
 		<h3 class="text-accent text-3xl font-semibold mt-16">404 Ошибка</h3>
 		<RouterLink
 			:to="{ name: 'login' }"
-			class="text-lg bg-secondary text-content rounded-full py-3 px-5 mt-10 hover:bg-accent hover:text-secondary"
+			class="text-lg bg-secondary rounded-full py-3 px-5 mt-10 hover:bg-accent hover:text-secondary"
 			>Вернуться на главную</RouterLink
 		>
-	</div>
+	</section>
 </template>
