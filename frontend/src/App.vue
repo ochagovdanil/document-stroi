@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { getAuth, onAuthStateChanged, signOut, type Auth } from 'firebase/auth';
 import Toast from 'primevue/toast';
-import useToastMessage from './app/model/useToastMessage';
+import useToastMessage from './app/model/composables/useToastMessage';
 
 const isLoggedIn = ref<boolean>(false);
 

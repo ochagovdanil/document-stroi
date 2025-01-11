@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import useToastMessage from '@/app/model/composables/useToastMessage';
-import loginFormSchema from '@/app/model/validation/LoginFormSchema';
-import {
-	getAuth,
-	GoogleAuthProvider,
-	signInWithEmailAndPassword,
-	signInWithPopup,
-	type Auth,
-} from 'firebase/auth';
+import registerFormSchema from '@/app/model/validation/RegisterFormSchema';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { ErrorMessage, Field, Form } from 'vee-validate';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -15,15 +9,20 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const toast = useToastMessage();
 
-const isLoginButtonSpinnerVisible = ref<boolean>(false); // The loading state of a 'sign in' button
+const isRegisterButtonSpinnerVisible = ref<boolean>(false); // The loading state of a 'sign up' button
 
-// Sign in with email and password
-function signIn(values: any): void {
-	isLoginButtonSpinnerVisible.value = true;
-	const auth: Auth = getAuth();
+// Sign up with email and password
+function signUp(values: any): void {
+	isRegisterButtonSpinnerVisible.value = true;
 
-	signInWithEmailAndPassword(auth, values.email, values.password)
-		.then(() => router.push({ name: 'projects' })) // Success
+	createUserWithEmailAndPassword(
+		getAuth(),
+		values.email,
+		values.repeatPassword
+	)
+		.then(
+			() => router.push({ name: 'projects' }) // Success
+		)
 		.catch(error => {
 			// Failure
 			switch (error.code) {
@@ -34,29 +33,22 @@ function signIn(values: any): void {
 						'Невалидный адрес электронной почты.'
 					);
 					break;
-				case 'auth/invalid-credential':
-					toast('error', 'Ошибка!', 'Неверный логин или пароль.');
-					break;
-				case 'auth/user-disabled':
+				case 'auth/email-already-in-use':
 					toast(
 						'error',
 						'Ошибка!',
-						'Аккаунт пользователя был заблокирован.'
+						'Данный адрес электронной почты уже занят.'
 					);
+					break;
+				case 'auth/weak-password':
+					toast('error', 'Ошибка!', 'Слишком слабый пароль.');
 					break;
 				default:
 					toast('error', 'Ошибка!', error.code);
 					break;
 			}
 		})
-		.finally(() => (isLoginButtonSpinnerVisible.value = false));
-}
-
-// Sign in via Google Provider (O-Auth)
-function signInWithGoogle(): void {
-	signInWithPopup(getAuth(), new GoogleAuthProvider())
-		.then(() => router.push({ name: 'projects' }))
-		.catch(error => toast('error', 'Ошибка!', error));
+		.finally(() => (isRegisterButtonSpinnerVisible.value = false));
 }
 </script>
 
@@ -64,8 +56,8 @@ function signInWithGoogle(): void {
 	<div class="flex justify-center">
 		<div>
 			<Form
-				@submit="signIn"
-				:validation-schema="loginFormSchema"
+				@submit="signUp"
+				:validation-schema="registerFormSchema"
 				class="w-[30rem]"
 			>
 				<div class="">
@@ -81,7 +73,7 @@ function signInWithGoogle(): void {
 					/>
 				</div>
 				<div class="my-4">
-					<span class="text-content">Пароль:</span>
+					<span class="text-content">Придумайте пароль:</span>
 					<Field
 						type="password"
 						name="password"
@@ -92,23 +84,28 @@ function signInWithGoogle(): void {
 						class="text-secondary font-semibold"
 					/>
 				</div>
+				<div class="my-4">
+					<span class="text-content">Повторите пароль:</span>
+					<Field
+						type="password"
+						name="repeatPassword"
+						class="w-full mt-2 text-content py-2 px-4 rounded-md border-2 border-silver focus:border-primary hover:border-primary outline-none"
+					/>
+					<ErrorMessage
+						name="repeatPassword"
+						class="text-secondary font-semibold"
+					/>
+				</div>
 				<button
 					class="bg-secondary text-content font-semibold w-full py-3 my-3 rounded-md hover:bg-accent hover:text-secondary"
 				>
-					Авторизоваться
+					Создать аккаунт
 					<i
 						class="pi pi-spinner pi-spin"
-						v-if="isLoginButtonSpinnerVisible"
+						v-if="isRegisterButtonSpinnerVisible"
 					></i>
 				</button>
 			</Form>
-			<button
-				@click="signInWithGoogle"
-				class="bg-slate-800 text-slate-200 font-medium w-full py-3 mt-3 rounded-md hover:bg-slate-700"
-			>
-				Войти через
-				<i class="pi pi-google"></i>
-			</button>
 		</div>
 	</div>
 </template>
