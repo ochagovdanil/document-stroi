@@ -15,12 +15,13 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const toast = useToastMessage();
 
+const auth: Auth = getAuth();
+
 const isLoginButtonSpinnerVisible = ref<boolean>(false); // The loading state of a 'sign in' button
 
 // Sign in with email and password
 function signIn(values: any): void {
 	isLoginButtonSpinnerVisible.value = true;
-	const auth: Auth = getAuth();
 
 	signInWithEmailAndPassword(auth, values.email, values.password)
 		.then(() => router.push({ name: 'projects' })) // Success
@@ -54,7 +55,7 @@ function signIn(values: any): void {
 
 // Sign in via Google Provider (O-Auth)
 function signInWithGoogle(): void {
-	signInWithPopup(getAuth(), new GoogleAuthProvider())
+	signInWithPopup(auth, new GoogleAuthProvider())
 		.then(() => router.push({ name: 'projects' }))
 		.catch(error => toast('error', 'Ошибка!', error));
 }

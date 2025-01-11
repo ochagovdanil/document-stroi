@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import logo from '@/app/ui/assets/logo-in-circle.png';
-import ProfileCircle from '@/features/navbar/ProfileCircle.vue';
+import ProfileCircle from '@/features/navbar/ui/ProfileCircle.vue';
 import { getAuth, onAuthStateChanged, type Auth } from 'firebase/auth';
-import { Divider } from 'primevue';
 import { onMounted, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 
@@ -23,35 +22,34 @@ onMounted(() => {
 </script>
 
 <template>
-	<header
-		class="bg-background"
-		v-if="isLoggedIn && route.name !== 'not-found'"
-	>
-		<div class="container flex justify-between items-center mt-4">
+	<header class="bg-accent" v-if="isLoggedIn && route.name !== 'not-found'">
+		<div
+			class="container bg-primary flex justify-between items-center px-4 py-3 rounded-full my-3 border-2"
+		>
 			<div class="flex justify-center items-center gap-3">
 				<img
 					:src="logo"
 					alt="Логотип"
 					title="ДокументСтрой"
-					class="h-8"
+					class="h-10"
 				/>
-				<p class="text-lg">ДокументСтрой</p>
+				<p class="text-lg text-accent">ДокументСтрой</p>
 			</div>
 			<nav>
 				<ul class="flex items-center gap-6">
 					<li>
 						<RouterLink
 							:to="{ name: 'projects' }"
-							class="py-1 px-2 rounded-md hover:text-background hover:bg-primary"
-							activeClass="bg-primary text-background"
+							class="py-2 px-3 rounded-full text-accent hover:text-primary hover:bg-accent"
+							activeClass="bg-accent text-primary"
 							>Главная</RouterLink
 						>
 					</li>
 					<li>
 						<RouterLink
 							:to="{ name: 'new-project' }"
-							class="py-1 px-2 rounded-md hover:text-background hover:bg-primary"
-							activeClass="bg-primary text-background"
+							class="py-2 px-3 rounded-full text-accent hover:text-primary hover:bg-accent"
+							activeClass="bg-accent text-primary"
 							>Новый проект</RouterLink
 						>
 					</li>
@@ -61,6 +59,5 @@ onMounted(() => {
 				</ul>
 			</nav>
 		</div>
-		<Divider />
 	</header>
 </template>

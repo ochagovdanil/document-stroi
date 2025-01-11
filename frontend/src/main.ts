@@ -10,6 +10,7 @@ import router from '@/app/router';
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 import ToastService from 'primevue/toastservice';
+import ConfirmationService from 'primevue/confirmationservice';
 
 import { VueQueryPlugin } from '@tanstack/vue-query';
 
@@ -39,6 +40,7 @@ app.use(createPinia())
 		ripple: true,
 	})
 	.use(ToastService)
+	.use(ConfirmationService)
 	.use(VueQueryPlugin);
 
 app.mount('#app');
