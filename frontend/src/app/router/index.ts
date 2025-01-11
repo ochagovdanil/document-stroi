@@ -23,6 +23,11 @@ const router = createRouter({
 				requiresAuth: true,
 			},
 		},
+		{
+			path: '/:catchAll(.*)',
+			name: 'not-found',
+			component: () => import('@/pages/NotFoundView.vue'),
+		},
 	],
 });
 

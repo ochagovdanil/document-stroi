@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import useToastMessage from '@/app/model/composables/useToastMessage';
-import registerFormSchema from '@/app/model/validation/RegisterFormSchema';
+import useToastMessage from '@/shared/model/composables/useToastMessage';
+import registerFormSchema from '@/shared/model/validation/RegisterFormSchema';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { ErrorMessage, Field, Form } from 'vee-validate';
 import { ref } from 'vue';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import useToastMessage from '@/app/model/composables/useToastMessage';
-import loginFormSchema from '@/app/model/validation/LoginFormSchema';
+import useToastMessage from '@/shared/model/composables/useToastMessage';
+import loginFormSchema from '@/shared/model/validation/LoginFormSchema';
 import {
 	getAuth,
 	GoogleAuthProvider,
