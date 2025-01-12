@@ -20,7 +20,7 @@ const currentUser: User = auth.currentUser!;
 		>
 			<img
 				:src="currentUser.photoURL"
-				class="h-28 rounded-md absolute right-3 top-3"
+				class="h-28 rounded-md absolute right-3 top-3 shadow-md"
 				alt="Аватар"
 				title="Аватар"
 			/>
@@ -32,7 +32,7 @@ const currentUser: User = auth.currentUser!;
 			title="Аватар"
 		>
 			<div
-				class="h-28 w-28 rounded-md flex justify-center items-center bg-tertiary-light absolute right-3 top-3"
+				class="h-28 w-28 rounded-md flex justify-center items-center bg-tertiary-light absolute right-3 top-3 shadow-md"
 			>
 				<i class="pi pi-user" style="font-size: 1.7rem"></i>
 			</div>

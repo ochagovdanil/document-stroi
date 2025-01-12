@@ -24,7 +24,7 @@ onMounted(() => {
 <template>
 	<header class="bg-accent" v-if="isLoggedIn && route.name !== 'not-found'">
 		<div
-			class="container bg-primary flex justify-between items-center px-4 py-3 rounded-full my-3 border-2"
+			class="container bg-primary flex justify-between items-center px-4 py-3 rounded-full my-3 border-2 shadow-md"
 		>
 			<div class="flex justify-center items-center gap-3">
 				<img

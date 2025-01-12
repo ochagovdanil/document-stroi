@@ -74,7 +74,7 @@ function signInWithGoogle(): void {
 					<Field
 						type="email"
 						name="email"
-						class="w-full mt-2 py-2 px-4 rounded-md border-2 border-silver focus:border-primary hover:border-primary outline-none"
+						class="w-full mt-2 py-2 px-4 rounded-full border-2 border-silver focus:border-primary hover:border-primary outline-none"
 					/>
 					<ErrorMessage
 						name="email"
@@ -86,7 +86,7 @@ function signInWithGoogle(): void {
 					<Field
 						type="password"
 						name="password"
-						class="w-full mt-2 py-2 px-4 rounded-md border-2 border-silver focus:border-primary hover:border-primary outline-none"
+						class="w-full mt-2 py-2 px-4 rounded-full border-2 border-silver focus:border-primary hover:border-primary outline-none"
 					/>
 					<ErrorMessage
 						name="password"
@@ -94,7 +94,7 @@ function signInWithGoogle(): void {
 					/>
 				</div>
 				<button
-					class="bg-secondary font-semibold w-full py-3 my-3 rounded-md hover:bg-accent hover:text-secondary"
+					class="bg-secondary font-semibold w-full py-3 my-3 rounded-full border-content border-2 hover:bg-accent hover:text-secondary"
 				>
 					Авторизоваться
 					<i
@@ -105,7 +105,7 @@ function signInWithGoogle(): void {
 			</Form>
 			<button
 				@click="signInWithGoogle"
-				class="bg-slate-800 text-slate-200 font-medium w-full py-3 mt-3 rounded-md hover:bg-slate-700"
+				class="bg-slate-800 text-slate-200 font-medium w-full py-3 mt-3 rounded-full hover:bg-slate-700"
 			>
 				Войти через
 				<i class="pi pi-google"></i>

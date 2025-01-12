@@ -11,7 +11,7 @@
 		<h3 class="text-accent text-3xl font-semibold mt-16">404 Ошибка</h3>
 		<RouterLink
 			:to="{ name: 'login' }"
-			class="text-lg bg-secondary rounded-full py-3 px-5 mt-10 hover:bg-accent hover:text-secondary"
+			class="text-lg bg-secondary rounded-full py-3 px-6 mt-10 shadow-md border-content border-2 hover:bg-accent hover:text-secondary"
 			>Вернуться на главную</RouterLink
 		>
 	</section>

@@ -7,7 +7,7 @@ import RegisterHeader from '@/widgets/register/ui/RegisterHeader.vue';
 	<section
 		class="bg-primary h-screen w-screen flex justify-center items-center shadow-md"
 	>
-		<div class="bg-tertiary rounded-md p-6">
+		<div class="bg-tertiary rounded-xl p-6">
 			<RegisterHeader />
 			<RegisterForm />
 		</div>

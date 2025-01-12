@@ -7,7 +7,7 @@ import LoginHeader from '@/widgets/login/ui/LoginHeader.vue';
 	<section
 		class="bg-primary h-screen w-screen flex justify-center items-center shadow-md"
 	>
-		<div class="bg-tertiary rounded-md p-6">
+		<div class="bg-tertiary rounded-xl p-6">
 			<LoginHeader />
 			<LoginForm />
 		</div>
