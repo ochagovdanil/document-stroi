@@ -6,12 +6,20 @@ export default {
 			colors: {
 				// For components and elements on the page
 				primary: '#0A262C',
-				secondary: '#FF4922',
+				secondary: {
+					DEFAULT: '#FF4922',
+					dark: '#ff3a0e',
+				},
 				tertiary: {
 					DEFAULT: '#CCD7D6',
 					light: '#DFF3FE',
+					dark: '#c8e7fa',
 				},
 				accent: '#FFE9DC',
+				success: {
+					DEFAULT: '#02dfa7',
+					light: '#00FCBB',
+				},
 				// For background color
 				background: '#FDFDFD',
 				// For title and subtitle
