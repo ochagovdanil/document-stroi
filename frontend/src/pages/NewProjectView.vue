@@ -1,7 +1,21 @@
 <script setup lang="ts">
-import NewProjectDetails from '@/widgets/new-project/ui/NewProjectDetails.vue';
+import { defineAsyncComponent } from 'vue';
+
+const Documents = defineAsyncComponent(
+	() => import('@/widgets/new-project/ui/Filters.vue')
+);
+const Filters = defineAsyncComponent(
+	() => import('@/widgets/new-project/ui/Filters.vue')
+);
+const NewProjectDetails = defineAsyncComponent(
+	() => import('@/widgets/new-project/ui/NewProjectDetails.vue')
+);
 </script>
 
 <template>
-	<NewProjectDetails />
+	<section class="container">
+		<NewProjectDetails />
+		<Filters />
+		<Documents />
+	</section>
 </template>

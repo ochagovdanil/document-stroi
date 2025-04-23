@@ -6,8 +6,7 @@
 	"scripts": {
 		"start": "nodemon index.js"
 	},
-	"author": "",
-	"license": "ISC",
+	"author": "Danil Ochagov",
 	"dependencies": {
 		"cors": "^2.8.5",
 		"express": "^4.21.2",

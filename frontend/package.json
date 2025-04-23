@@ -1,6 +1,6 @@
 {
-	"name": "document-stroi",
-	"version": "0.0.0",
+	"name": "document-stroi-frontend",
+	"version": "1.0.0",
 	"private": true,
 	"type": "module",
 	"scripts": {
@@ -10,6 +10,7 @@
 		"build-only": "vite build",
 		"type-check": "vue-tsc --build"
 	},
+	"author": "Danil Ochagov",
 	"dependencies": {
 		"@primevue/themes": "^4.2.5",
 		"@tanstack/vue-query": "^5.62.16",
