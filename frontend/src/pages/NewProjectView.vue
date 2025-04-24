@@ -2,7 +2,7 @@
 import { defineAsyncComponent } from 'vue';
 
 const Documents = defineAsyncComponent(
-	() => import('@/widgets/new-project/ui/Filters.vue')
+	() => import('@/widgets/new-project/ui/Documents.vue')
 );
 const Filters = defineAsyncComponent(
 	() => import('@/widgets/new-project/ui/Filters.vue')

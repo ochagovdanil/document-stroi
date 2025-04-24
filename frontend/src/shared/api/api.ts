@@ -1,5 +1,13 @@
+import type ClimateZone from '@/entities/ClimateZone';
+import type EcoRequirement from '@/entities/EcoRequirement';
+import type Invention from '@/entities/Invention';
+import type MaterialType from '@/entities/MaterialType';
+import type MaterialUse from '@/entities/MaterialUse';
 import type OksSubtype from '@/entities/OksSubtype';
 import type OksType from '@/entities/OksType';
+import type SpecialCase from '@/entities/SpecialCase';
+import type SpecialClimateZone from '@/entities/SpecialClimateZone';
+import type Stage from '@/entities/Stage';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -18,4 +26,47 @@ export const getOksSubtypes = async (ids: number[]) => {
 			ids,
 		})
 	).data;
+};
+
+// Этапы строительства
+export const getStages = async () => {
+	return (await axiosInstance.get<Stage[]>('/stages')).data;
+};
+
+// Типы материалов
+export const getMaterialTypes = async () => {
+	return (await axiosInstance.get<MaterialType[]>('/material-types')).data;
+};
+
+// Назначения материалов
+export const getMaterialUses = async () => {
+	return (await axiosInstance.get<MaterialUse[]>('/material-uses')).data;
+};
+
+// Экологические и санитарные требования
+export const getEcoRequirements = async () => {
+	return (await axiosInstance.get<EcoRequirement[]>('/eco-requirements'))
+		.data;
+};
+
+// Особые условия эксплуатации
+export const getSpecialCases = async () => {
+	return (await axiosInstance.get<SpecialCase[]>('/special-cases')).data;
+};
+
+// Климатические зоны
+export const getClimateZones = async () => {
+	return (await axiosInstance.get<ClimateZone[]>('/climate-zones')).data;
+};
+
+// Особые климатические зоны
+export const getSpecialClimateZones = async () => {
+	return (
+		await axiosInstance.get<SpecialClimateZone[]>('/special-climate-zones')
+	).data;
+};
+
+// Формы собственности
+export const getInventions = async () => {
+	return (await axiosInstance.get<Invention[]>('/inventions')).data;
 };

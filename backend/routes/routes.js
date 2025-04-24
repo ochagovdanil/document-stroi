@@ -3,6 +3,18 @@ const { getErr } = require('../controllers/errorController');
 const { getDocuments } = require('../controllers/documentsController');
 const { getOksTypes } = require('../controllers/oksTypesController');
 const { getOksSubtypes } = require('../controllers/oksSubtypesController');
+const { getStages } = require('../controllers/stagesController');
+const { getMaterialTypes } = require('../controllers/materialTypesController');
+const { getMaterialUses } = require('../controllers/materialUsesController');
+const {
+	getEcoRequirements,
+} = require('../controllers/ecoRequirementsController');
+const { getSpecialCases } = require('../controllers/specialCasesController');
+const { getClimateZones } = require('../controllers/climateZonesController');
+const {
+	getSpecialClimateZones,
+} = require('../controllers/specialClimateZonesController');
+const { getInventions } = require('../controllers/inventionsController');
 
 const router = express.Router();
 
@@ -12,8 +24,32 @@ router.get('/documents', getDocuments);
 // Список всех типов ОКС
 router.get('/oks-types', getOksTypes);
 
-// Список всех подтипов ОКС по типу ОКС
+// Список подтипов ОКС по типу ОКС
 router.post('/oks-subtypes', getOksSubtypes);
+
+// Список всех этапов строительства
+router.get('/stages', getStages);
+
+// Список всех типов материалов
+router.get('/material-types', getMaterialTypes);
+
+// Список всех назначений материалов
+router.get('/material-uses', getMaterialUses);
+
+// Список всех экологических и санитарных требований
+router.get('/eco-requirements', getEcoRequirements);
+
+// Список всех особых условий эксплуатации
+router.get('/special-cases', getSpecialCases);
+
+// Список всех климатических зон
+router.get('/climate-zones', getClimateZones);
+
+// Список всех особых климатических зон
+router.get('/special-climate-zones', getSpecialClimateZones);
+
+// Список всех форм собственности
+router.get('/inventions', getInventions);
 
 // Handle 404 error
 router.get('*', getErr);
