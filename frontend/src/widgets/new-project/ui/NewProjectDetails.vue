@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import newProjectDummy from '@/app/ui/assets/new-project-dummy.jpg';
+import UploadProjectImage from '@/features/new-project/ui/UploadProjectImage.vue';
+import { useNewProjectDetailsStore } from '@/shared/model/store/NewProjectDetails';
+import { storeToRefs } from 'pinia';
+
+const { details } = storeToRefs(useNewProjectDetailsStore());
+const { updateName, updateDateStart, updateDateEnd } =
+	useNewProjectDetailsStore();
 </script>
 
 <template>
@@ -14,30 +20,34 @@ import newProjectDummy from '@/app/ui/assets/new-project-dummy.jpg';
 				type="text"
 				placeholder="Название проекта"
 				class="w-[50rem] py-2 px-4 text-primary font-bold text-2xl placeholder-silver mx-auto block border-b-2 border-primary bg-transparent focus:border-secondary hover:border-secondary outline-none"
+				:value="details.name"
+				@change="(e: Event) => 
+					updateName((e.target as HTMLInputElement).value)
+				"
 			/>
 			<div class="mt-10 text-lg">
 				<span class="mr-8">Дата начала:</span>
-				<input type="date" class="bg-transparent" />
+				<input
+					type="date"
+					class="bg-transparent"
+					:value="details.dateStart"
+					@change="(e: Event) => 
+					updateDateStart((e.target as HTMLInputElement).value)
+				"
+				/>
 			</div>
 			<div class="mt-4 text-lg">
 				<span class="mr-8">Дата окончания:</span>
-				<input type="date" class="bg-transparent" />
+				<input
+					type="date"
+					class="bg-transparent"
+					:value="details.dateEnd"
+					@change="(e: Event) => 
+					updateDateEnd((e.target as HTMLInputElement).value)
+				"
+				/>
 			</div>
 		</div>
-		<div
-			class="h-[15rem] w-[25rem] my-8 mr-10 rounded-md bg-tertiary relative"
-		>
-			<img
-				:src="newProjectDummy"
-				class="h-[15rem] w-[25rem] rounded-md absolute right-3 top-3 shadow-md object-cover object-center"
-				alt="Изображение проекта"
-				title="Изображение проекта"
-			/>
-			<i
-				class="pi pi-pencil absolute right-[-2rem] cursor-pointer hover:text-secondary"
-				style="font-size: 1.2rem"
-				title="Изменить"
-			></i>
-		</div>
+		<UploadProjectImage />
 	</div>
 </template>

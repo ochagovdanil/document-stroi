@@ -1,6 +1,7 @@
-import { useQuery } from '@tanstack/vue-query';
+import { useMutation, useQuery } from '@tanstack/vue-query';
 import {
 	getClimateZones,
+	getDocumentsByIds,
 	getEcoRequirements,
 	getInventions,
 	getMaterialTypes,
@@ -91,5 +92,12 @@ export function useInventions() {
 	return useQuery({
 		queryKey: ['inventions'],
 		queryFn: getInventions,
+	});
+}
+
+// Документы по их IDs
+export function useDocumentsByIds() {
+	return useMutation({
+		mutationFn: (ids: number[]) => getDocumentsByIds(ids),
 	});
 }

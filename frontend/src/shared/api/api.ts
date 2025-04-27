@@ -1,4 +1,5 @@
 import type ClimateZone from '@/entities/ClimateZone';
+import type Document from '@/entities/Document';
 import type EcoRequirement from '@/entities/EcoRequirement';
 import type Invention from '@/entities/Invention';
 import type MaterialType from '@/entities/MaterialType';
@@ -69,4 +70,13 @@ export const getSpecialClimateZones = async () => {
 // Формы собственности
 export const getInventions = async () => {
 	return (await axiosInstance.get<Invention[]>('/inventions')).data;
+};
+
+// Документы по их IDs
+export const getDocumentsByIds = async (ids: number[]) => {
+	return (
+		await axiosInstance.post<Document[]>('/documents', {
+			ids,
+		})
+	).data;
 };

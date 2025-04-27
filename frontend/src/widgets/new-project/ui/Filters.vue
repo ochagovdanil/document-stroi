@@ -1,39 +1,39 @@
 <script setup lang="ts">
-import type OksSubtype from '@/entities/OksSubtype';
-import type OksType from '@/entities/OksType';
-import type Stage from '@/entities/Stage';
+import type EcoRequirement from '@/entities/EcoRequirement';
 import type MaterialType from '@/entities/MaterialType';
 import type MaterialUse from '@/entities/MaterialUse';
-import type EcoRequirement from '@/entities/EcoRequirement';
+import type OksType from '@/entities/OksType';
 import type SpecialCase from '@/entities/SpecialCase';
-import type ClimateZone from '@/entities/ClimateZone';
 import type SpecialClimateZone from '@/entities/SpecialClimateZone';
-import type Invention from '@/entities/Invention';
 import {
-	useOksSubtypes,
-	useOksTypes,
-	useStages,
+	useClimateZones,
+	useEcoRequirements,
+	useInventions,
 	useMaterialTypes,
 	useMaterialUses,
-	useEcoRequirements,
+	useOksSubtypes,
+	useOksTypes,
 	useSpecialCases,
-	useClimateZones,
 	useSpecialClimateZones,
-	useInventions,
+	useStages,
 } from '@/shared/api/queries';
+import { useNewProjectFilterIdsStore } from '@/shared/model/store/NewProjectFilterIds';
 import { MultiSelect, Select } from 'primevue';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
-const selectedOksType = ref<OksType>();
-const selectedOksSubtype = ref<OksSubtype>();
-const selectedStage = ref<Stage>();
-const selectedMaterialTypes = ref<MaterialType[]>();
-const selectedMaterialUses = ref<MaterialUse[]>();
-const selectedEcoRequirements = ref<EcoRequirement[]>();
-const selectedSpecialCases = ref<SpecialCase[]>();
-const selectedClimateZone = ref<ClimateZone>();
-const selectedSpecialClimateZones = ref<SpecialClimateZone[]>();
-const selectedInvention = ref<Invention>();
+const {
+	updateOksSubtypeIds,
+	updateStageIds,
+	updateMaterialTypeIds,
+	updateMaterialUseIds,
+	updateEcoRequirementIds,
+	updateSpecialUseIds,
+	updateClimateZoneIds,
+	updateSpecialClimateZoneIds,
+	updateInventionIds,
+} = useNewProjectFilterIdsStore(); // Хранит ids нормативных документов, которые необходимо занести в таблицу на основе выбранных пользователем фильтров
+
+const selectedOksType = ref<OksType>(); // На основе выбранного типа ОКС будет определен следующий подтип ОКС
 
 const {
 	isFetching: isOksTypesFetching,
@@ -98,6 +98,11 @@ const {
 	isError: isInventionsError,
 	data: inventions,
 } = useInventions(); // Формы собственности
+
+// Если фильтр типа ОКС был очищен, то очищаем значение в подтипе ОКС тоже
+watch(selectedOksType, val => {
+	if (!val) updateOksSubtypeIds(null);
+});
 </script>
 
 <template>
@@ -121,6 +126,7 @@ const {
 					v-model="selectedOksType"
 					checkmark
 					filter
+					showClear
 				/>
 
 				<p v-if="isOksSubtypesFetching" class="italic">
@@ -134,9 +140,12 @@ const {
 					placeholder="Выберите значение"
 					:options="oksSubtypes"
 					optionLabel="name"
-					v-model="selectedOksSubtype"
 					checkmark
+					showClear
 					:disabled="!selectedOksType"
+					@value-change="
+						val => updateOksSubtypeIds(val?.document_ids)
+					"
 				/>
 			</div>
 		</div>
@@ -154,8 +163,9 @@ const {
 				class="w-full"
 				:options="stagesData"
 				optionLabel="name"
-				v-model="selectedStage"
 				checkmark
+				showClear
+				@value-change="val => updateStageIds(val?.document_ids)"
 			/>
 		</div>
 		<div class="grid grid-cols-2 gap-4">
@@ -173,7 +183,10 @@ const {
 					class="w-full"
 					:options="materialTypes"
 					optionLabel="name"
-					v-model="selectedMaterialTypes"
+					showClear
+					@value-change="
+						val => updateMaterialTypeIds(val?.map((item: MaterialType) => item?.document_ids))
+					"
 				/>
 			</div>
 			<div>
@@ -190,7 +203,10 @@ const {
 					class="w-full"
 					:options="materialUses"
 					optionLabel="name"
-					v-model="selectedMaterialUses"
+					showClear
+					@value-change="
+						val => updateMaterialUseIds(val?.map((item: MaterialUse) => item?.document_ids))
+					"
 				/>
 			</div>
 		</div>
@@ -215,7 +231,10 @@ const {
 					class="w-full"
 					:options="ecoRequirements"
 					optionLabel="name"
-					v-model="selectedEcoRequirements"
+					showClear
+					@value-change="
+						val => updateEcoRequirementIds(val?.map((item: EcoRequirement) => item?.document_ids))
+					"
 				/>
 			</div>
 			<div>
@@ -234,7 +253,10 @@ const {
 					class="w-full"
 					:options="specialCases"
 					optionLabel="name"
-					v-model="selectedSpecialCases"
+					showClear
+					@value-change="
+						val => updateSpecialUseIds(val?.map((item: SpecialCase) => item?.document_ids))
+					"
 				/>
 			</div>
 		</div>
@@ -253,8 +275,11 @@ const {
 					class="w-full"
 					:options="climateZones"
 					optionLabel="name"
-					v-model="selectedClimateZone"
 					checkmark
+					showClear
+					@value-change="
+						val => updateClimateZoneIds(val?.document_ids)
+					"
 				/>
 			</div>
 			<div>
@@ -276,7 +301,10 @@ const {
 					class="w-full"
 					:options="specialClimateZones"
 					optionLabel="name"
-					v-model="selectedSpecialClimateZones"
+					showClear
+					@value-change="
+						val => updateSpecialClimateZoneIds(val?.map((item: SpecialClimateZone) => item?.document_ids))
+					"
 				/>
 			</div>
 		</div>
@@ -294,8 +322,9 @@ const {
 				class="w-full"
 				:options="inventions"
 				optionLabel="name"
-				v-model="selectedInvention"
 				checkmark
+				showClear
+				@value-change="val => updateInventionIds(val?.document_ids)"
 			/>
 		</div>
 	</div>
