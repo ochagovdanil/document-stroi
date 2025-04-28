@@ -33,7 +33,7 @@ const router = createRouter({
 			component: () => import('@/pages/ProjectsView.vue'), // main page
 			meta: {
 				requiresAuth: true, // Only for authenticated users
-				title: 'Проекты',
+				title: 'Мои проекты',
 			},
 		},
 		{

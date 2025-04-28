@@ -3,6 +3,7 @@ import type Document from '@/entities/Document';
 import InsertDocumentManually from '@/features/new-project/ui/InsertDocumentManually.vue';
 import LoadRecommendedDocs from '@/features/new-project/ui/LoadRecommendedDocs.vue';
 import RemoveSelectedDocuments from '@/features/new-project/ui/RemoveSelectedDocuments.vue';
+import SaveProject from '@/features/new-project/ui/SaveProject.vue';
 import { useNewProjectDetailsStore } from '@/shared/model/store/NewProjectDetails';
 import { storeToRefs } from 'pinia';
 import { Column, DataTable } from 'primevue';
@@ -39,10 +40,5 @@ const selectedDocuments = ref<Document[]>([]); // Выбранные запис�
 			<Column field="link" header="Ссылка на документ"></Column>
 		</DataTable>
 	</div>
-	<button
-		class="w-full my-8 font-semibold bg-success-light py-3 border-2 border-content rounded-full shadow-md hover:bg-success"
-	>
-		<i class="pi pi-check mr-2"></i>
-		Сохранить проект
-	</button>
+	<SaveProject />
 </template>

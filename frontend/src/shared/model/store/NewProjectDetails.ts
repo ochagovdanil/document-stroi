@@ -60,6 +60,16 @@ export const useNewProjectDetailsStore = defineStore(
 			);
 		}
 
+		function clearState() {
+			Object.assign(details.value, {
+				name: '',
+				dateStart: '',
+				dateEnd: '',
+				image: '',
+				documents: [],
+			});
+		}
+
 		return {
 			details,
 
@@ -71,6 +81,7 @@ export const useNewProjectDetailsStore = defineStore(
 			updateImage,
 			insertDocuments,
 			removeDocuments,
+			clearState,
 		};
 	}
 );

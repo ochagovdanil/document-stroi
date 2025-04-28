@@ -42,7 +42,7 @@ onMounted(() => {
 							:to="{ name: 'projects' }"
 							class="py-2 px-3 rounded-full text-accent hover:text-primary hover:bg-accent"
 							activeClass="bg-accent text-primary"
-							>Главная</RouterLink
+							>Мои проекты</RouterLink
 						>
 					</li>
 					<li>

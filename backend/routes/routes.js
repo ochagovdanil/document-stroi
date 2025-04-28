@@ -16,6 +16,7 @@ const {
 	getSpecialClimateZones,
 } = require('../controllers/specialClimateZonesController');
 const { getInventions } = require('../controllers/inventionsController');
+const { saveProject } = require('../controllers/saveProjectController');
 
 const router = express.Router();
 
@@ -51,6 +52,9 @@ router.get('/special-climate-zones', getSpecialClimateZones);
 
 // Список всех форм собственности
 router.get('/inventions', getInventions);
+
+// Сохранить новый проект
+router.post('/save-project', saveProject);
 
 // Handle 404 error
 router.get('*', getErr);

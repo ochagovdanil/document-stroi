@@ -6,6 +6,7 @@ import type MaterialType from '@/entities/MaterialType';
 import type MaterialUse from '@/entities/MaterialUse';
 import type OksSubtype from '@/entities/OksSubtype';
 import type OksType from '@/entities/OksType';
+import type ProjectDetails from '@/entities/ProjectDetails';
 import type SpecialCase from '@/entities/SpecialCase';
 import type SpecialClimateZone from '@/entities/SpecialClimateZone';
 import type Stage from '@/entities/Stage';
@@ -77,6 +78,22 @@ export const getDocumentsByIds = async (ids: number[]) => {
 	return (
 		await axiosInstance.post<Document[]>('/documents', {
 			ids,
+		})
+	).data;
+};
+
+// Сохранить новый проект от текущего юзера
+export const saveProject = async (userId: string, project: ProjectDetails) => {
+	return (
+		await axiosInstance.post<any>('/save-project', {
+			userId,
+			name: project.name,
+			image: project.image,
+			dateStart: project.dateStart,
+			dateEnd: project.dateEnd,
+			documents: project.documents.map(
+				(document: Document) => document.document_id
+			),
 		})
 	).data;
 };
