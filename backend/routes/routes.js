@@ -20,6 +20,7 @@ const { saveProject } = require('../controllers/saveProjectController');
 const {
 	getProjectsLength,
 } = require('../controllers/projectsLengthController');
+const { getProjectsByUid } = require('../controllers/projectsByUidController');
 
 const router = express.Router();
 
@@ -61,6 +62,9 @@ router.post('/save-project', saveProject);
 
 // Число проектов для userId
 router.post('/projects-length', getProjectsLength);
+
+// Все проекты для userId
+router.post('/projects', getProjectsByUid);
 
 // Handle 404 error
 router.get('*', getErr);

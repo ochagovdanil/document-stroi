@@ -8,6 +8,7 @@ import {
 	getMaterialUses,
 	getOksSubtypes,
 	getOksTypes,
+	getProjectsByUid,
 	getProjectsLengthByUid,
 	getSpecialCases,
 	getSpecialClimateZones,
@@ -118,6 +119,15 @@ export function useProjectsLengthByUid(uid: string) {
 	return useQuery({
 		queryKey: computed(() => ['projects-length', uid]),
 		queryFn: () => getProjectsLengthByUid(uid),
+		enabled: computed(() => uid !== ''), // perform this post request only if the search param persists
+	});
+}
+
+// Все проекты для userId
+export function useProjectsByUid(uid: string) {
+	return useQuery({
+		queryKey: computed(() => ['projects', uid]),
+		queryFn: () => getProjectsByUid(uid),
 		enabled: computed(() => uid !== ''), // perform this post request only if the search param persists
 	});
 }

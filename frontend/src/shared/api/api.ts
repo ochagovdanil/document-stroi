@@ -6,6 +6,7 @@ import type MaterialType from '@/entities/MaterialType';
 import type MaterialUse from '@/entities/MaterialUse';
 import type OksSubtype from '@/entities/OksSubtype';
 import type OksType from '@/entities/OksType';
+import type ProjectCard from '@/entities/ProjectCard';
 import type ProjectDetails from '@/entities/ProjectDetails';
 import type SpecialCase from '@/entities/SpecialCase';
 import type SpecialClimateZone from '@/entities/SpecialClimateZone';
@@ -91,9 +92,7 @@ export const saveProject = async (userId: string, project: ProjectDetails) => {
 			image: project.image,
 			dateStart: project.dateStart,
 			dateEnd: project.dateEnd,
-			documents: project.documents.map(
-				(document: Document) => document.document_id
-			),
+			documents: project.documents,
 		})
 	).data;
 };
@@ -102,6 +101,15 @@ export const saveProject = async (userId: string, project: ProjectDetails) => {
 export const getProjectsLengthByUid = async (uid: string) => {
 	return (
 		await axiosInstance.post<{ length: number }>('/projects-length', {
+			uid,
+		})
+	).data;
+};
+
+// Все проекты для userId
+export const getProjectsByUid = async (uid: string) => {
+	return (
+		await axiosInstance.post<ProjectCard[]>('/projects', {
 			uid,
 		})
 	).data;

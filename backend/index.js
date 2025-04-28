@@ -1,10 +1,13 @@
 const cors = require('cors');
 const express = require('express');
+const bodyParser = require('body-parser');
 const router = require('./routes/routes');
 const connectDB = require('./configs/mongoDB');
 
 // Apply dependencies
 const app = express();
+app.use(bodyParser.json({ limit: '20mb' }));
+app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 app.use(cors());
 app.use(express.json());
 
