@@ -97,3 +97,12 @@ export const saveProject = async (userId: string, project: ProjectDetails) => {
 		})
 	).data;
 };
+
+// Количество проектов для userId
+export const getProjectsLengthByUid = async (uid: string) => {
+	return (
+		await axiosInstance.post<{ length: number }>('/projects-length', {
+			uid,
+		})
+	).data;
+};

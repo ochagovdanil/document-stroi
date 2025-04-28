@@ -17,6 +17,9 @@ const {
 } = require('../controllers/specialClimateZonesController');
 const { getInventions } = require('../controllers/inventionsController');
 const { saveProject } = require('../controllers/saveProjectController');
+const {
+	getProjectsLength,
+} = require('../controllers/projectsLengthController');
 
 const router = express.Router();
 
@@ -55,6 +58,9 @@ router.get('/inventions', getInventions);
 
 // Сохранить новый проект
 router.post('/save-project', saveProject);
+
+// Число проектов для userId
+router.post('/projects-length', getProjectsLength);
 
 // Handle 404 error
 router.get('*', getErr);

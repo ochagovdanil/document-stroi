@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import DeleteAccount from '@/features/profile/ui/DeleteAccount.vue';
+import { useProjectsLengthByUid } from '@/shared/api/queries';
 import { getAuth, type Auth, type User } from 'firebase/auth';
 
 const auth: Auth = getAuth();
 const currentUser: User = auth.currentUser!;
+
+const { data, isError, isFetching } = useProjectsLengthByUid(currentUser.uid);
 </script>
 
 <template>
@@ -48,7 +51,13 @@ const currentUser: User = auth.currentUser!;
 	</p>
 	<p class="font-semibold text-lg">
 		Количество проектов:
-		<span class="font-medium underline">{{ -999 }}</span>
+		<span class="font-medium underline" v-if="isFetching"
+			>подсчитываем...</span
+		>
+		<span class="font-medium underline" v-else-if="isError">N/A</span>
+		<span class="font-medium underline" v-else="data">{{
+			data?.length
+		}}</span>
 	</p>
 	<p class="font-semibold text-lg">
 		Номер телефона:
