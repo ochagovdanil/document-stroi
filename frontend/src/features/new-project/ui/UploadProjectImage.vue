@@ -3,7 +3,7 @@ import newProjectDummy from '@/app/ui/assets/new-project-dummy.jpg';
 import useToastMessage from '@/shared/model/composables/useToastMessage';
 import { useNewProjectDetailsStore } from '@/shared/model/store/NewProjectDetails';
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const toastMessage = useToastMessage();
 
@@ -12,6 +12,7 @@ const { updateImage } = useNewProjectDetailsStore();
 
 const imageFileInput = ref<HTMLInputElement | null>(null); // Ссылка на скрытый input с type='file'
 const isImageUploading = ref<boolean>(false);
+const isImageUploaded = computed(() => details.value.image); // Если картинка загружена, то показать иконку очистки
 
 // Получить preview (base64 string) для файла типа image/*
 function getImagePreview(event: Event) {
@@ -92,13 +93,22 @@ function getImagePreview(event: Event) {
 			style="display: none"
 			@change="getImagePreview"
 		/>
+		<!-- Default image -->
 		<i
-			v-if="!isImageUploading"
+			v-if="!isImageUploading && !isImageUploaded"
 			class="pi pi-pencil absolute right-[-2rem] cursor-pointer hover:text-secondary"
 			style="font-size: 1.2rem"
 			title="Изменить"
 			@click="() => imageFileInput?.click()"
 		></i>
+		<!-- Image was loaded -->
+		<i
+			v-else-if="!isImageUploading && isImageUploaded"
+			class="pi pi-times absolute right-[-2rem] cursor-pointer hover:text-secondary"
+			style="font-size: 1.2rem"
+			@click="() => updateImage('')"
+		></i>
+		<!-- New image is loading -->
 		<i
 			v-else
 			class="pi pi-spinner pi-spin absolute right-[-2rem] hover:text-secondary"
