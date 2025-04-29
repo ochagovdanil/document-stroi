@@ -2,6 +2,7 @@
 import { useRemoveProjectByName } from '@/shared/api/mutations';
 import useConfirmDialog from '@/shared/model/composables/useConfirmDialog';
 import useToastMessage from '@/shared/model/composables/useToastMessage';
+import { useRouter, type Router } from 'vue-router';
 
 const { uid, projectName } = defineProps<{
 	uid: string;
@@ -10,6 +11,8 @@ const { uid, projectName } = defineProps<{
 
 const confirmDialog = useConfirmDialog();
 const toastMessage = useToastMessage();
+
+const router: Router = useRouter();
 
 const { mutateAsync, isPending } = useRemoveProjectByName(uid);
 
@@ -32,6 +35,8 @@ function handleClick() {
 			try {
 				await mutateAsync(projectName);
 
+				router.push({ name: 'projects' });
+
 				toastMessage(
 					'success',
 					`Проект "${projectName}" был успешно удален!`,
@@ -48,19 +53,14 @@ function handleClick() {
 
 <template>
 	<button
-		class="bg-tertiary self-center rounded-e-lg mr-[-3rem] shadow-lg hover:bg-tertiary-dark"
-		title="Удалить проект"
+		class="bg-secondary-dark text-primary font-bold rounded-md py-2 px-32 text-lg mt-6 border-2 border-content shadow-md cursor-pointer hover:bg-tertiary hover:text-secondary-dark"
 		@click="handleClick"
 	>
+		Удалить проект
 		<i
 			v-if="isPending"
-			class="pi pi-spin pi-spinner p-7 text-secondary-dark"
-			style="font-size: 1.5rem"
-		></i>
-		<i
-			v-else
-			class="pi pi-trash p-7 text-secondary-dark"
-			style="font-size: 1.5rem"
+			class="pi pi-spin pi-spinner text-primary"
+			style="font-weight: bold"
 		></i>
 	</button>
 </template>

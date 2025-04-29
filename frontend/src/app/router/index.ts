@@ -37,6 +37,18 @@ const router = createRouter({
 			},
 		},
 		{
+			path: '/projects/:name',
+			name: 'project',
+			component: () => import('@/pages/ProjectView.vue'),
+			meta: {
+				requiresAuth: true, // Only for authenticated users
+			},
+			beforeEnter: (to, _from, next) => {
+				document.title = to.params.name as string;
+				next();
+			},
+		},
+		{
 			path: '/new-project',
 			name: 'new-project',
 			component: () => import('@/pages/NewProjectView.vue'),

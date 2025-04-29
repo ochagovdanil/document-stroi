@@ -22,7 +22,12 @@ onMounted(() => {
 </script>
 
 <template>
-	<header class="bg-accent" v-if="isLoggedIn && route.name !== 'not-found'">
+	<header
+		class="bg-accent"
+		v-if="
+			isLoggedIn && route.name !== 'not-found' && route.name !== 'project'
+		"
+	>
 		<div
 			class="container bg-primary flex justify-between items-center px-4 py-3 rounded-full my-3 border-2 shadow-md"
 		>

@@ -8,6 +8,7 @@ import {
 	getMaterialUses,
 	getOksSubtypes,
 	getOksTypes,
+	getProjectByName,
 	getProjectsByUid,
 	getProjectsLengthByUid,
 	getSpecialCases,
@@ -111,5 +112,14 @@ export function useProjectsByUid(uid: string) {
 		queryKey: computed(() => ['projects', uid]),
 		queryFn: () => getProjectsByUid(uid),
 		enabled: computed(() => uid !== ''), // perform this post request only if the search param persists
+	});
+}
+
+// Проект по названию
+export function useProjectByName(name: string) {
+	return useQuery({
+		queryKey: computed(() => ['projects', name]),
+		queryFn: () => getProjectByName(name),
+		enabled: computed(() => name !== ''), // perform this post request only if the search param persists
 	});
 }

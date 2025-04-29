@@ -115,7 +115,7 @@ export const getProjectsByUid = async (uid: string) => {
 	).data;
 };
 
-// Все проекты для userId
+// Удалить проект по его названию
 export const removeProjectByName = async (name: string) => {
 	return (
 		await axiosInstance.delete<string>('/projects', {
@@ -123,5 +123,14 @@ export const removeProjectByName = async (name: string) => {
 				name,
 			},
 		})
+	).data;
+};
+
+// Проекты по его названию
+export const getProjectByName = async (name: string) => {
+	return (
+		await axiosInstance.get<ProjectCard>(
+			`/projects/${encodeURIComponent(name)}`
+		)
 	).data;
 };

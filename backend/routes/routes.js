@@ -24,6 +24,7 @@ const { getProjectsByUid } = require('../controllers/projectsByUidController');
 const {
 	removeProjectByName,
 } = require('../controllers/removeProjectByNameController');
+const { getProjectByName } = require('../controllers/projectByNameController');
 
 const router = express.Router();
 
@@ -68,6 +69,9 @@ router.post('/projects-length', getProjectsLength);
 
 // Все проекты для userId
 router.post('/projects', getProjectsByUid);
+
+// Проект по названию
+router.get('/projects/:name', getProjectByName);
 
 // Удалить проект по названию
 router.delete('/projects', removeProjectByName);
