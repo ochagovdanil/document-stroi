@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSaveProject } from '@/shared/api/queries';
+import { useSaveProject } from '@/shared/api/mutations';
 import useToastMessage from '@/shared/model/composables/useToastMessage';
 import { useNewProjectDetailsStore } from '@/shared/model/store/NewProjectDetails';
 import { useNewProjectFilterIdsStore } from '@/shared/model/store/NewProjectFilterIds';

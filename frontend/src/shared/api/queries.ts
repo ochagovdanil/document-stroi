@@ -1,7 +1,7 @@
-import { useMutation, useQuery } from '@tanstack/vue-query';
+import { useQuery } from '@tanstack/vue-query';
+import { computed, type Ref } from 'vue';
 import {
 	getClimateZones,
-	getDocumentsByIds,
 	getEcoRequirements,
 	getInventions,
 	getMaterialTypes,
@@ -13,10 +13,7 @@ import {
 	getSpecialCases,
 	getSpecialClimateZones,
 	getStages,
-	saveProject,
 } from './api';
-import { computed, type Ref } from 'vue';
-import type ProjectDetails from '@/entities/ProjectDetails';
 
 // Типы ОКС
 export function useOksTypes() {
@@ -96,21 +93,6 @@ export function useInventions() {
 	return useQuery({
 		queryKey: ['inventions'],
 		queryFn: getInventions,
-	});
-}
-
-// Документы по их IDs
-export function useDocumentsByIds() {
-	return useMutation({
-		mutationFn: (ids: number[]) => getDocumentsByIds(ids),
-	});
-}
-
-// Сохранить новый проект от текущего юзера
-export function useSaveProject() {
-	return useMutation({
-		mutationFn: (params: { userId: string; project: ProjectDetails }) =>
-			saveProject(params.userId, params.project),
 	});
 }
 

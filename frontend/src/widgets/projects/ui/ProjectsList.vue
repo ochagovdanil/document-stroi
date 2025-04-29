@@ -30,7 +30,7 @@ const { data, isFetching, isError } = useProjectsByUid(currentUser.uid);
 			<ProjectCard
 				v-for="project in data"
 				:project
-				:key="project.userId"
+				:key="project.name"
 				v-memo="[project]"
 			/>
 		</div>

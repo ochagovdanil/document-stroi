@@ -114,3 +114,14 @@ export const getProjectsByUid = async (uid: string) => {
 		})
 	).data;
 };
+
+// Все проекты для userId
+export const removeProjectByName = async (name: string) => {
+	return (
+		await axiosInstance.delete<string>('/projects', {
+			data: {
+				name,
+			},
+		})
+	).data;
+};

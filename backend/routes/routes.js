@@ -21,6 +21,9 @@ const {
 	getProjectsLength,
 } = require('../controllers/projectsLengthController');
 const { getProjectsByUid } = require('../controllers/projectsByUidController');
+const {
+	removeProjectByName,
+} = require('../controllers/removeProjectByNameController');
 
 const router = express.Router();
 
@@ -65,6 +68,9 @@ router.post('/projects-length', getProjectsLength);
 
 // Все проекты для userId
 router.post('/projects', getProjectsByUid);
+
+// Удалить проект по названию
+router.delete('/projects', removeProjectByName);
 
 // Handle 404 error
 router.get('*', getErr);

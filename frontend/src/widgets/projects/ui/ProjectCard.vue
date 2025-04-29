@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type ProjectCard from '@/entities/ProjectCard';
 import dummy from '@/app/ui/assets/new-project-dummy.jpg';
+import DeleteProject from '@/features/projects/ui/DeleteProject.vue';
 
 const { project } = defineProps<{
 	project: ProjectCard;
@@ -33,14 +34,6 @@ const { project } = defineProps<{
 				Кол-во нормативных документов: {{ project.documents.length }}
 			</p>
 		</div>
-		<button
-			class="bg-tertiary self-center rounded-e-lg mr-[-3rem] shadow-md hover:bg-tertiary-dark"
-			title="Удалить проект"
-		>
-			<i
-				class="pi pi-trash p-7 text-secondary-dark"
-				style="font-size: 1.5rem"
-			></i>
-		</button>
+		<DeleteProject :uid="project.userId" :projectName="project.name" />
 	</div>
 </template>
