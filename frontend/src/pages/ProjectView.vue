@@ -3,7 +3,7 @@ import ProjectDetails from '@/widgets/project/ui/ProjectDetails.vue';
 </script>
 
 <template>
-	<section class="bg-primary h-screen w-screen">
+	<section class="bg-primary h-full w-full">
 		<div class="container">
 			<ProjectDetails />
 		</div>

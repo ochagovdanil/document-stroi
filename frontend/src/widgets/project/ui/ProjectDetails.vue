@@ -2,13 +2,21 @@
 import { useProjectByName } from '@/shared/api/queries';
 import { useRoute, useRouter, type Router } from 'vue-router';
 import dummy from '@/app/ui/assets/new-project-dummy.jpg';
-import RemoveProject from '@/features/project/RemoveProject.vue';
+import RemoveProject from '@/features/project/ui/RemoveProject.vue';
+import SaveProject from '@/features/project/ui/SaveProject.vue';
+import { ref } from 'vue';
+import type Document from '@/entities/Document';
+import { Column, DataTable } from 'primevue';
+import InsertDocumentManually from '@/features/project/ui/InsertDocumentManually.vue';
+import RemoveSelectedDocuments from '@/features/project/ui/RemoveSelectedDocuments.vue';
 
 const route = useRoute();
 const router: Router = useRouter();
 const projectName: string = route.params.name as string;
 
 const { data, isFetching, isError } = useProjectByName(projectName);
+
+const selectedDocuments = ref<Document[]>([]); // Выбранные записи в таблице
 </script>
 
 <template>
@@ -40,13 +48,26 @@ const { data, isFetching, isError } = useProjectByName(projectName);
 			</p>
 		</div>
 		<div class="flex justify-center gap-40 mt-10">
-			<div class="h-[22rem] w-[35rem] rounded-md bg-tertiary relative">
+			<div class="h-[17rem] w-[30rem] rounded-md bg-tertiary relative">
 				<img
 					:src="data.image || dummy"
-					class="h-[22rem] w-[35rem] rounded-md absolute right-3 top-3 shadow-xl object-cover object-center"
+					class="h-[17rem] w-[30rem] rounded-md absolute right-3 top-3 shadow-xl object-cover object-center"
 					alt="Изображение проекта"
 					title="Изображение проекта"
 				/>
+				<div class="absolute right-[-2rem] top-0 flex flex-col gap-4">
+					<i
+						class="pi pi-pencil text-success cursor-pointer hover:text-success-light"
+						style="font-size: 1.2rem"
+						title="Изменить изображение"
+					></i>
+					<i
+						class="pi pi-times text-secondary-dark cursor-pointer hover:text-secondary"
+						style="font-size: 1.2rem"
+						title="Удалить изображение"
+						v-if="data.image"
+					></i>
+				</div>
 			</div>
 			<div>
 				<p class="text-accent text-lg">
@@ -55,8 +76,29 @@ const { data, isFetching, isError } = useProjectByName(projectName);
 				<p class="text-accent text-lg">
 					Дата окончания: {{ data.dateEnd || 'N/A' }}
 				</p>
-				<RemoveProject :uid="data.userId" :projectName="data.name" />
+				<SaveProject />
 			</div>
 		</div>
+		<div class="grid grid-cols-2 gap-4 mt-16">
+			<InsertDocumentManually />
+			<RemoveSelectedDocuments
+				:selectedDocuments
+				@onRemoved="() => (selectedDocuments = [])"
+			/>
+		</div>
+		<DataTable
+			size="small"
+			showGridlines
+			stripedRows
+			removableSort
+			:value="data.documents"
+			v-model:selection="selectedDocuments"
+			dataKey="name"
+		>
+			<Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+			<Column field="name" header="Название документа" sortable></Column>
+			<Column field="link" header="Ссылка на документ"></Column>
+		</DataTable>
+		<RemoveProject :uid="data.userId" :projectName="data.name" />
 	</div>
 </template>
