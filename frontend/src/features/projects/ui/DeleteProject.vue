@@ -50,7 +50,7 @@ function handleClick() {
 	<button
 		class="bg-tertiary self-center rounded-e-lg mr-[-3rem] shadow-lg hover:bg-tertiary-dark"
 		title="Удалить проект"
-		@click="handleClick"
+		@click.stop="handleClick"
 	>
 		<i
 			v-if="isPending"

@@ -86,7 +86,9 @@ const selectedDocuments = ref<Document[]>([]); // Выбранные запис�
 				@onRemoved="() => (selectedDocuments = [])"
 			/>
 		</div>
+
 		<DataTable
+			v-if="data.documents.length > 0"
 			size="small"
 			showGridlines
 			stripedRows
@@ -99,6 +101,9 @@ const selectedDocuments = ref<Document[]>([]); // Выбранные запис�
 			<Column field="name" header="Название документа" sortable></Column>
 			<Column field="link" header="Ссылка на документ"></Column>
 		</DataTable>
+		<p v-else class="text-accent text-md text-center">
+			У этого проекта отсутствуют прикрепленные нормативные документы!
+		</p>
 		<RemoveProject :uid="data.userId" :projectName="data.name" />
 	</div>
 </template>

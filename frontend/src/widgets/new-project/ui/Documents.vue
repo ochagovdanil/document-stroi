@@ -24,9 +24,6 @@ const selectedDocuments = ref<Document[]>([]); // Выбранные запис�
 		/>
 	</div>
 	<div v-if="getDocumentsSize">
-		<p class="text-xl text-center mb-4">
-			Список нормативных документов для нового проекта:
-		</p>
 		<DataTable
 			size="small"
 			showGridlines
@@ -49,5 +46,8 @@ const selectedDocuments = ref<Document[]>([]); // Выбранные запис�
 			</Column>
 		</DataTable>
 	</div>
+	<p v-else class="text-center">
+		Прикрепите нормативные документы к этому проекту для их отображения.
+	</p>
 	<SaveProject />
 </template>
