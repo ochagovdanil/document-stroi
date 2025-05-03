@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type Document from '@/entities/Document';
+import useConfirmDialog from '@/shared/model/composables/useConfirmDialog';
 import useToastMessage from '@/shared/model/composables/useToastMessage';
 import { useNewProjectDetailsStore } from '@/shared/model/store/NewProjectDetails';
 
@@ -13,6 +14,7 @@ const emit = defineEmits<{
 
 const { removeDocuments } = useNewProjectDetailsStore();
 const toastMessage = useToastMessage();
+const confirmDialog = useConfirmDialog();
 
 function removeSelectedItems() {
 	if (selectedDocuments.length === 0)
@@ -22,8 +24,27 @@ function removeSelectedItems() {
 			'Выберите хотя бы одну запись в таблице.'
 		);
 	else {
-		removeDocuments(...selectedDocuments);
-		emit('onRemoved');
+		confirmDialog(
+			`Вы уверены что хотите удалить ${selectedDocuments.length} нормативный документ(-ов) из списка?`,
+			'Внимание!',
+			'pi pi-exclamation-triangle',
+			{
+				label: 'Нет',
+				severity: 'secondary',
+				outlined: true,
+			},
+			{
+				label: 'Да, уверен',
+				severity: 'danger',
+				outlined: false,
+			},
+			() => {
+				// Удаляем выбранные документы из списка
+				removeDocuments(...selectedDocuments);
+				emit('onRemoved');
+			},
+			() => {}
+		);
 	}
 }
 </script>

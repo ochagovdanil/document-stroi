@@ -32,10 +32,14 @@ const selectedDocuments = ref<Document[]>([]); // Выбранные запис�
 			:value="details.documents"
 			v-model:selection="selectedDocuments"
 			dataKey="name"
+			paginator
+			:rows="15"
+			:rows-per-page-options="[10, 15, 20, 25, 30, 35, 40, 45, 50]"
+			sortMode="multiple"
 		>
 			<Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
 			<Column field="name" header="Название документа" sortable></Column>
-			<Column field="link" header="Ссылка на документ"></Column>
+			<Column field="link" header="Ссылка на документ" sortable></Column>
 			<Column header="Изменить">
 				<template #body="slotProps">
 					<EditDocument

@@ -54,13 +54,13 @@ function handleClick() {
 	>
 		<i
 			v-if="isPending"
-			class="pi pi-spin pi-spinner p-7 text-secondary-dark"
-			style="font-size: 1.5rem"
+			class="pi pi-spin pi-spinner p-6 text-secondary-dark"
+			style="font-size: 1.2rem"
 		></i>
 		<i
 			v-else
-			class="pi pi-trash p-7 text-secondary-dark"
-			style="font-size: 1.5rem"
+			class="pi pi-trash p-6 text-secondary-dark"
+			style="font-size: 1.2rem"
 		></i>
 	</button>
 </template>

@@ -32,10 +32,10 @@ const router: Router = useRouter();
 				{{ project.name }}
 			</p>
 			<p class="text-accent">
-				Дата начала: {{ project.dateStart || 'N/A' }}
+				Дата начала: {{ project.dateStart || 'не указана' }}
 			</p>
 			<p class="text-accent">
-				Дата начала: {{ project.dateEnd || 'N/A' }}
+				Дата начала: {{ project.dateEnd || 'не указана' }}
 			</p>
 			<p class="text-accent">
 				Кол-во нормативных документов: {{ project.documents.length }}

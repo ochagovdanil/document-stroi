@@ -53,11 +53,11 @@ function handleClick() {
 
 <template>
 	<button
-		class="w-full bg-secondary-dark text-primary rounded-md py-2 px-32 text-lg mt-6 mb-10 border-2 border-content shadow-md cursor-pointer hover:bg-tertiary"
+		class="bg-secondary-dark text-primary rounded-md py-2 px-32 text-lg mt-6 mb-10 border-2 border-content shadow-md cursor-pointer hover:bg-tertiary"
 		@click="handleClick"
 	>
 		<i v-if="isPending" class="pi pi-spin pi-spinner text-primary"></i>
-		<i v-else class="pi pi-trash text-primary"></i>
+		<i v-else class="pi pi-eraser text-primary"></i>
 		Удалить проект
 	</button>
 </template>

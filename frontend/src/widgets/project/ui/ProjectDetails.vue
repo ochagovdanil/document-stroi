@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { useProjectByName } from '@/shared/api/queries';
-import { useRoute, useRouter, type Router } from 'vue-router';
 import dummy from '@/app/ui/assets/new-project-dummy.jpg';
-import RemoveProject from '@/features/project/ui/RemoveProject.vue';
-import SaveProject from '@/features/project/ui/SaveProject.vue';
-import { ref } from 'vue';
 import type Document from '@/entities/Document';
-import { Column, DataTable } from 'primevue';
 import InsertDocumentManually from '@/features/project/ui/InsertDocumentManually.vue';
+import RemoveProject from '@/features/project/ui/RemoveProject.vue';
 import RemoveSelectedDocuments from '@/features/project/ui/RemoveSelectedDocuments.vue';
+import { useProjectByName } from '@/shared/api/queries';
+import { Column, DataTable } from 'primevue';
+import { ref } from 'vue';
+import { useRoute, useRouter, type Router } from 'vue-router';
+import EditDocument from './EditDocument.vue';
+import ExportCSV from '@/features/project/ui/ExportCSV.vue';
 
 const route = useRoute();
 const router: Router = useRouter();
@@ -17,6 +18,7 @@ const projectName: string = route.params.name as string;
 const { data, isFetching, isError } = useProjectByName(projectName);
 
 const selectedDocuments = ref<Document[]>([]); // Выбранные записи в таблице
+const dt = ref<InstanceType<typeof DataTable>>();
 </script>
 
 <template>
@@ -45,9 +47,13 @@ const selectedDocuments = ref<Document[]>([]); // Выбранные запис�
 			>
 				Сведения о
 				<span class="bg-secondary-dark">{{ data.name }}</span>
+				<i
+					class="pi pi-pencil pl-2 text-success cursor-pointer hover:text-success-light"
+					style="font-size: 1.4rem"
+				></i>
 			</p>
 		</div>
-		<div class="flex justify-center gap-40 mt-10">
+		<div class="flex justify-center gap-40 mt-8">
 			<div class="h-[17rem] w-[30rem] rounded-md bg-tertiary relative">
 				<img
 					:src="data.image || dummy"
@@ -71,22 +77,27 @@ const selectedDocuments = ref<Document[]>([]); // Выбранные запис�
 			</div>
 			<div>
 				<p class="text-accent text-lg">
-					Дата начала: {{ data.dateStart || 'N/A' }}
+					Дата начала: {{ data.dateStart || 'не указана' }}
+					<i
+						class="pi pi-pencil cursor-pointer hover:text-secondary"
+					></i>
 				</p>
 				<p class="text-accent text-lg">
-					Дата окончания: {{ data.dateEnd || 'N/A' }}
+					Дата окончания: {{ data.dateEnd || 'не указана' }}
+					<i
+						class="pi pi-pencil cursor-pointer hover:text-secondary"
+					></i>
 				</p>
-				<SaveProject />
+				<RemoveProject :uid="data.userId" :projectName="data.name" />
 			</div>
 		</div>
-		<div class="grid grid-cols-2 gap-4 mt-16">
+		<div class="grid grid-cols-2 gap-4 mt-8">
 			<InsertDocumentManually />
 			<RemoveSelectedDocuments
 				:selectedDocuments
 				@onRemoved="() => (selectedDocuments = [])"
 			/>
 		</div>
-
 		<DataTable
 			v-if="data.documents.length > 0"
 			size="small"
@@ -96,14 +107,28 @@ const selectedDocuments = ref<Document[]>([]); // Выбранные запис�
 			:value="data.documents"
 			v-model:selection="selectedDocuments"
 			dataKey="name"
+			paginator
+			:rows="15"
+			:rows-per-page-options="[10, 15, 20, 25, 30, 35, 40, 45, 50]"
+			sortMode="multiple"
+			ref="dt"
+			class="mb-8"
+			:export-filename="data.name"
 		>
+			<template #header>
+				<div class="text-end">
+					<ExportCSV @onExport="() => dt?.exportCSV()" />
+				</div>
+			</template>
 			<Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
 			<Column field="name" header="Название документа" sortable></Column>
-			<Column field="link" header="Ссылка на документ"></Column>
+			<Column field="link" header="Ссылка на документ" sortable></Column>
+			<Column header="Изменить">
+				<template #body> <EditDocument /> </template
+			></Column>
 		</DataTable>
-		<p v-else class="text-accent text-md text-center">
+		<p v-else class="text-accent text-md text-center mb-8">
 			У этого проекта отсутствуют прикрепленные нормативные документы!
 		</p>
-		<RemoveProject :uid="data.userId" :projectName="data.name" />
 	</div>
 </template>
