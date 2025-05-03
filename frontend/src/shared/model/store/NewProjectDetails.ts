@@ -60,6 +60,13 @@ export const useNewProjectDetailsStore = defineStore(
 			);
 		}
 
+		function updateDocument(oldDocument: Document, newDocument: Document) {
+			details.value.documents.map((document: Document) => {
+				if (JSON.stringify(document) === JSON.stringify(oldDocument))
+					Object.assign(document, newDocument);
+			});
+		}
+
 		function clearState() {
 			Object.assign(details.value, {
 				name: '',
@@ -81,6 +88,7 @@ export const useNewProjectDetailsStore = defineStore(
 			updateImage,
 			insertDocuments,
 			removeDocuments,
+			updateDocument,
 			clearState,
 		};
 	}

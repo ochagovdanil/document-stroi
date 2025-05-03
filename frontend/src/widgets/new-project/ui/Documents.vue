@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type Document from '@/entities/Document';
+import EditDocument from '@/features/new-project/ui/EditDocument.vue';
 import InsertDocumentManually from '@/features/new-project/ui/InsertDocumentManually.vue';
 import LoadRecommendedDocs from '@/features/new-project/ui/LoadRecommendedDocs.vue';
 import RemoveSelectedDocuments from '@/features/new-project/ui/RemoveSelectedDocuments.vue';
@@ -38,6 +39,14 @@ const selectedDocuments = ref<Document[]>([]); // Выбранные запис�
 			<Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
 			<Column field="name" header="Название документа" sortable></Column>
 			<Column field="link" header="Ссылка на документ"></Column>
+			<Column header="Изменить">
+				<template #body="slotProps">
+					<EditDocument
+						:document="slotProps.data"
+						v-memo="[slotProps.data]"
+					/>
+				</template>
+			</Column>
 		</DataTable>
 	</div>
 	<SaveProject />

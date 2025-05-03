@@ -5,52 +5,61 @@ import { useNewProjectDetailsStore } from '@/shared/model/store/NewProjectDetail
 import { Dialog } from 'primevue';
 import { ref, watch } from 'vue';
 
+const { document } = defineProps<{ document: Document }>();
+
 const isDialogVisible = ref<boolean>(false);
-const newDocument = ref<Document>({
-	name: '',
-	link: '',
-	document_id: -1, // Документ добавленный ручным способом имеет ИД равное 1. При сохранении проекта ИД будет incremented автоматически
+const currentDocument = ref<Document>({
+	name: document.name,
+	link: document.link,
+	document_id: document.document_id,
 });
 
 const toastMessage = useToastMessage();
+const { updateDocument } = useNewProjectDetailsStore();
 
-const { insertDocuments } = useNewProjectDetailsStore();
+function editDocument() {
+	if (
+		currentDocument.value.name !== '' &&
+		currentDocument.value.link !== ''
+	) {
+		try {
+			// Обновляем нормативный документ
+			updateDocument(document, currentDocument.value);
 
-function addNewDocument() {
-	if (newDocument.value.name !== '' && newDocument.value.link !== '') {
-		const documentToInsert: Document = { ...newDocument.value };
-		insertDocuments(documentToInsert);
-
-		isDialogVisible.value = false;
+			isDialogVisible.value = false;
+		} catch (error: any) {
+			toastMessage(
+				'error',
+				'Внимание!',
+				`При обновлении нормативного документа возникла ошибка: ${error}`
+			);
+		}
 	} else
 		toastMessage('warn', 'Внимание!', 'Вам необходимо заполнить все поля.');
 }
 
-// Если диалоговое окно закрывается, то чистим в нем поля
+// Если диалоговое окно закрывается, то устанавливаем поля до редактирования
 watch(isDialogVisible, newVal => {
 	if (!newVal)
-		Object.assign(newDocument.value, {
-			name: '',
-			link: '',
-			document_id: -1,
+		Object.assign(currentDocument.value, {
+			name: document.name,
+			link: document.link,
+			document_id: document.document_id,
 		});
 });
 </script>
 
 <template>
-	<button
-		class="w-full my-8 font-semibold bg-primary text-accent py-3 border-2 border-content rounded-full shadow-md hover:bg-accent hover:text-primary"
-		@click="isDialogVisible = true"
-	>
-		<i class="pi pi-plus mr-2"></i>
-		Добавить документ вручную
-	</button>
+	<i
+		@click="() => (isDialogVisible = true)"
+		class="pi pi-pencil w-full text-center cursor-pointer hover:text-secondary"
+	></i>
 
-	<!-- Modal dialog that creates a new document -->
+	<!-- Modal dialog that edits the current document -->
 	<Dialog
 		v-model:visible="isDialogVisible"
 		modal
-		header="Добавить новый нормативный документ"
+		header="Редактировать нормативный документ"
 		:dismissableMask="true"
 	>
 		<div>
@@ -59,7 +68,7 @@ watch(isDialogVisible, newVal => {
 				type="text"
 				placeholder="Введите значение"
 				class="border-2 border-content rounded-md py-2 px-3 w-[40rem]"
-				v-model="newDocument.name"
+				v-model="currentDocument.name"
 			/>
 		</div>
 		<div class="mt-4">
@@ -68,7 +77,7 @@ watch(isDialogVisible, newVal => {
 				type="text"
 				placeholder="Введите значение"
 				class="border-2 border-content rounded-md py-2 px-3 w-[40rem]"
-				v-model="newDocument.link"
+				v-model="currentDocument.link"
 			/>
 		</div>
 		<template #footer>
@@ -80,9 +89,9 @@ watch(isDialogVisible, newVal => {
 			</button>
 			<button
 				class="bg-success font-semibold py-2 px-4 rounded-md hover:bg-success-light"
-				@click="addNewDocument"
+				@click="editDocument"
 			>
-				Добавить
+				Сохранить
 			</button>
 		</template>
 	</Dialog>

@@ -1,11 +1,24 @@
 import { QueryClient, useMutation, useQueryClient } from '@tanstack/vue-query';
-import { getDocumentsByIds, removeProjectByName, saveProject } from './api';
+import {
+	getDocumentsByIds,
+	removeProjectByName,
+	saveProject,
+	updateDocument,
+} from './api';
 import type ProjectDetails from '@/entities/ProjectDetails';
+import type Document from '@/entities/Document';
 
 // Документы по их IDs
 export function useDocumentsByIds() {
 	return useMutation({
 		mutationFn: (ids: number[]) => getDocumentsByIds(ids),
+	});
+}
+
+// Редактировать документ
+export function useUpdateDocument() {
+	return useMutation({
+		mutationFn: (newDocument: Document) => updateDocument(newDocument),
 	});
 }
 

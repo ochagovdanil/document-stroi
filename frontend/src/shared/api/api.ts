@@ -83,6 +83,15 @@ export const getDocumentsByIds = async (ids: number[]) => {
 	).data;
 };
 
+// Редактировать документ
+export const updateDocument = async (newDocument: Document) => {
+	return (
+		await axiosInstance.post<Document>('/update-document', {
+			document: newDocument,
+		})
+	).data;
+};
+
 // Сохранить новый проект от текущего юзера
 export const saveProject = async (userId: string, project: ProjectDetails) => {
 	return (
