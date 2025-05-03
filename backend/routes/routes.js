@@ -20,7 +20,9 @@ const { saveProject } = require('../controllers/saveProjectController');
 const {
 	getProjectsLength,
 } = require('../controllers/projectsLengthController');
-const { getProjectsByUid } = require('../controllers/projectsByUidController');
+const {
+	getProjectsByParams,
+} = require('../controllers/projectsByParamsController');
 const {
 	removeProjectByName,
 } = require('../controllers/removeProjectByNameController');
@@ -67,8 +69,8 @@ router.post('/save-project', saveProject);
 // Число проектов для userId
 router.post('/projects-length', getProjectsLength);
 
-// Все проекты для userId
-router.post('/projects', getProjectsByUid);
+// Все проекты по поисковым параметрам
+router.post('/projects', getProjectsByParams);
 
 // Проект по названию
 router.get('/projects/:name', getProjectByName);

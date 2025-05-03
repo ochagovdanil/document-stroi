@@ -13,7 +13,7 @@ const router: Router = useRouter();
 
 <template>
 	<div
-		class="bg-primary rounded-s-2xl my-10 p-4 h-56 flex gap-10 cursor-pointer shadow-md border-tertiary border-[0.5rem] hover:bg-content"
+		class="bg-primary rounded-s-2xl my-10 p-4 h-[13.5rem] flex gap-10 cursor-pointer shadow-md border-tertiary border-[0.3rem] hover:bg-content"
 		:title="project.name"
 		@click="
 			() =>
@@ -27,7 +27,7 @@ const router: Router = useRouter();
 		/>
 		<div class="flex flex-col overflow-hidden w-full mr-4">
 			<p
-				class="text-3xl text-secondary-dark font-bold my-3 max-w-full whitespace-nowrap overflow-hidden text-ellipsis after:block after:bg-success after:w-20 after:h-[0.2rem] after:mt-4"
+				class="text-2xl text-secondary-dark font-bold mt-3 mb-5 max-w-full whitespace-nowrap overflow-hidden text-ellipsis after:block after:bg-success after:w-20 after:h-[0.2rem] after:mt-4"
 			>
 				{{ project.name }}
 			</p>
@@ -35,7 +35,7 @@ const router: Router = useRouter();
 				Дата начала: {{ project.dateStart || 'не указана' }}
 			</p>
 			<p class="text-accent">
-				Дата начала: {{ project.dateEnd || 'не указана' }}
+				Дата окончания: {{ project.dateEnd || 'не указана' }}
 			</p>
 			<p class="text-accent">
 				Кол-во нормативных документов: {{ project.documents.length }}

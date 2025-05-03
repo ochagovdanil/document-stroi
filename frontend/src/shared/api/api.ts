@@ -8,6 +8,7 @@ import type OksSubtype from '@/entities/OksSubtype';
 import type OksType from '@/entities/OksType';
 import type ProjectCard from '@/entities/ProjectCard';
 import type ProjectDetails from '@/entities/ProjectDetails';
+import type SearchParams from '@/entities/SearchParams';
 import type SpecialCase from '@/entities/SpecialCase';
 import type SpecialClimateZone from '@/entities/SpecialClimateZone';
 import type Stage from '@/entities/Stage';
@@ -115,11 +116,17 @@ export const getProjectsLengthByUid = async (uid: string) => {
 	).data;
 };
 
-// Все проекты для userId
-export const getProjectsByUid = async (uid: string) => {
+// Все проекты по параметрам поиска
+export const getProjectsByParams = async (
+	uid: string,
+	searchParams: SearchParams
+) => {
 	return (
 		await axiosInstance.post<ProjectCard[]>('/projects', {
 			uid,
+			query: searchParams.searchField,
+			dateStart: searchParams.dateStart,
+			dateEnd: searchParams.dateEnd,
 		})
 	).data;
 };

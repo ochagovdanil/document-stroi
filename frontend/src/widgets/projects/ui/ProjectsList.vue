@@ -1,32 +1,50 @@
 <script setup lang="ts">
-import { useProjectsByUid } from '@/shared/api/queries';
+import { useProjectsByParams } from '@/shared/api/queries';
 import { getAuth, type User } from 'firebase/auth';
 import empty from '@/app/ui/assets/empty.png';
 import ProjectCard from './ProjectCard.vue';
+import SearchBox from '../../../features/projects/ui/SearchBox.vue';
+import type SearchParams from '@/entities/SearchParams';
+import { ref } from 'vue';
 
 const currentUser: User = getAuth().currentUser!;
-const { data, isFetching, isError } = useProjectsByUid(currentUser.uid);
+const searchParams = ref<SearchParams>({
+	searchField: '',
+	dateStart: '',
+	dateEnd: '',
+}); // Текущие поисковые фильтры для запроса в БД
+
+const { data, isFetching, isError } = useProjectsByParams(
+	currentUser.uid,
+	searchParams.value
+);
+
+// После задания поисковых параметров в <SearchBox /> обновляем их для запроса в БД
+function updateSearchParams(params: SearchParams) {
+	Object.assign(searchParams.value, params);
+}
 </script>
 
 <template>
+	<p
+		class="text-3xl font-semibold mt-5 mb-10 text-center after:w-32 after:h-[0.2rem] after:bg-secondary after:mx-auto after:block after:mt-3"
+	>
+		Список текущих <span class="bg-tertiary">проектов</span>
+	</p>
+	<SearchBox @on-search="updateSearchParams" />
 	<div v-if="data">
-		<div v-if="data.length === 0" class="mt-32">
+		<div v-if="data.length === 0" class="mt-24">
 			<img
 				:src="empty"
 				alt="no-projects"
-				title="Проектов нет"
+				title="Проектов не найдено"
 				class="block mx-auto w-[22rem]"
 			/>
-			<p class="text-center text-xl text-secondary mt-7">
-				У вас нет активных проектов.
+			<p class="text-center text-xl text-primary mt-7">
+				Проектов не найдено.
 			</p>
 		</div>
 		<div v-else-if="data.length > 0">
-			<p
-				class="text-3xl font-semibold mt-5 mb-10 text-center after:w-32 after:h-[0.2rem] after:bg-secondary after:mx-auto after:block after:mt-3"
-			>
-				Список текущих <span class="bg-tertiary">проектов</span>
-			</p>
 			<ProjectCard
 				v-for="project in data"
 				:project

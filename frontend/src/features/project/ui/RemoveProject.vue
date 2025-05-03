@@ -39,8 +39,8 @@ function handleClick() {
 
 				toastMessage(
 					'success',
-					`Проект "${projectName}" был успешно удален!`,
-					''
+					'Успешно!',
+					`Проект "${projectName}" был удален!`
 				);
 			} catch (error: any) {
 				toastMessage('error', 'Ошибка при удалении проекта!', error);

@@ -34,7 +34,7 @@ function removeSelectedItems() {
 				outlined: true,
 			},
 			{
-				label: 'Да, уверен',
+				label: 'Удалить',
 				severity: 'danger',
 				outlined: false,
 			},

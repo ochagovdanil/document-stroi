@@ -37,8 +37,8 @@ async function handleClick() {
 
 			toastMessage(
 				'success',
-				`Проект "${projectDetailsToSave.name}" был успешно сохранен!`,
-				''
+				'Успешно!',
+				`Проект "${projectDetailsToSave.name}" был сохранен!`
 			);
 		} catch (error: any) {
 			if (error?.response?.data?.error) {

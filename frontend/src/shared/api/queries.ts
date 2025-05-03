@@ -9,12 +9,13 @@ import {
 	getOksSubtypes,
 	getOksTypes,
 	getProjectByName,
-	getProjectsByUid,
+	getProjectsByParams,
 	getProjectsLengthByUid,
 	getSpecialCases,
 	getSpecialClimateZones,
 	getStages,
 } from './api';
+import type SearchParams from '@/entities/SearchParams';
 
 // Типы ОКС
 export function useOksTypes() {
@@ -106,11 +107,11 @@ export function useProjectsLengthByUid(uid: string) {
 	});
 }
 
-// Все проекты для userId
-export function useProjectsByUid(uid: string) {
+// Все проекты по параметрам поиска
+export function useProjectsByParams(uid: string, searchParams: SearchParams) {
 	return useQuery({
-		queryKey: computed(() => ['projects', uid]),
-		queryFn: () => getProjectsByUid(uid),
+		queryKey: computed(() => ['projects', uid, searchParams]),
+		queryFn: () => getProjectsByParams(uid, searchParams),
 		enabled: computed(() => uid !== ''), // perform this post request only if the search param persists
 	});
 }
