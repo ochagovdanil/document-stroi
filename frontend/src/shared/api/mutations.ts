@@ -2,7 +2,9 @@ import { QueryClient, useMutation, useQueryClient } from '@tanstack/vue-query';
 import {
 	getDocumentsByIds,
 	removeProjectByName,
+	removeSharedProjectByName,
 	saveProject,
+	saveSharedProject,
 	updateDocument,
 } from './api';
 import type ProjectDetails from '@/entities/ProjectDetails';
@@ -30,6 +32,22 @@ export function useSaveProject() {
 	});
 }
 
+// Сохранить новый доступный мне проект от текущего юзера
+export function useSaveSharedProject() {
+	const queryClient: QueryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: (params: { userId: string; sharedUri: string }) =>
+			saveSharedProject(params.userId, params.sharedUri),
+		onSettled: async (_, error: any) => {
+			if (!error)
+				await queryClient.invalidateQueries({
+					queryKey: ['shared-projects'],
+				});
+		},
+	});
+}
+
 // Удалить проект по названию
 export function useRemoveProjectByName(uid: string) {
 	const queryClient: QueryClient = useQueryClient();
@@ -40,6 +58,21 @@ export function useRemoveProjectByName(uid: string) {
 			if (!error)
 				await queryClient.invalidateQueries({
 					queryKey: ['projects', uid],
+				});
+		},
+	});
+}
+
+// Удалить доступный мне проект по названию
+export function useRemoveSharedProjectByName(uid: string) {
+	const queryClient: QueryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: (name: string) => removeSharedProjectByName(uid, name),
+		onSettled: async (_, error: any) => {
+			if (!error)
+				await queryClient.invalidateQueries({
+					queryKey: ['shared-projects', uid],
 				});
 		},
 	});

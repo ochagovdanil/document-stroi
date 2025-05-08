@@ -25,7 +25,10 @@ onMounted(() => {
 	<header
 		class="bg-accent"
 		v-if="
-			isLoggedIn && route.name !== 'not-found' && route.name !== 'project'
+			isLoggedIn &&
+			route.name !== 'not-found' &&
+			route.name !== 'project' &&
+			route.name !== 'shared-current'
 		"
 	>
 		<div
@@ -47,7 +50,17 @@ onMounted(() => {
 							:to="{ name: 'projects' }"
 							class="py-2 px-3 rounded-full text-accent hover:text-primary hover:bg-accent"
 							activeClass="bg-accent text-primary"
-							>Мои проекты</RouterLink
+							><i class="pi pi-address-book mr-2"></i>Мои
+							проекты</RouterLink
+						>
+					</li>
+					<li>
+						<RouterLink
+							:to="{ name: 'shared' }"
+							class="py-2 px-3 rounded-full text-accent hover:text-primary hover:bg-accent"
+							activeClass="bg-accent text-primary"
+							><i class="pi pi-users mr-2"></i>Доступные
+							мне</RouterLink
 						>
 					</li>
 					<li>
@@ -55,7 +68,8 @@ onMounted(() => {
 							:to="{ name: 'new-project' }"
 							class="py-2 px-3 rounded-full text-accent hover:text-primary hover:bg-accent"
 							activeClass="bg-accent text-primary"
-							>Новый проект</RouterLink
+							><i class="pi pi-plus-circle mr-2"></i>Новый
+							проект</RouterLink
 						>
 					</li>
 					<li>

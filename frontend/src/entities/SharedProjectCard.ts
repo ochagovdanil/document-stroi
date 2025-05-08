@@ -1,6 +1,6 @@
 import type Document from '@/entities/Document';
 
-export default interface ProjectCard {
+export default interface SharedProjectCard {
 	_id: string;
 	userId: string;
 	name: string;
@@ -8,4 +8,5 @@ export default interface ProjectCard {
 	dateEnd: string;
 	image: string;
 	documents: Document[];
+	access: string; // r | w
 }

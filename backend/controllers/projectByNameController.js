@@ -1,6 +1,6 @@
 const ProjectModel = require('../models/Project');
 
-// Удалить проект по названию
+// Получить проект по названию
 const getProjectByName = async (req, res) => {
 	const { name } = req.params;
 

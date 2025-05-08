@@ -18,6 +18,9 @@ const {
 const { getInventions } = require('../controllers/inventionsController');
 const { saveProject } = require('../controllers/saveProjectController');
 const {
+	saveSharedProject,
+} = require('../controllers/saveSharedProjectController');
+const {
 	getProjectsLength,
 } = require('../controllers/projectsLengthController');
 const {
@@ -26,7 +29,16 @@ const {
 const {
 	removeProjectByName,
 } = require('../controllers/removeProjectByNameController');
+const {
+	removeSharedProjectByName,
+} = require('../controllers/removeSharedProjectByNameController');
 const { getProjectByName } = require('../controllers/projectByNameController');
+const {
+	getSharedProjectByName,
+} = require('../controllers/sharedProjectByNameController');
+const {
+	getSharedProjectsByParams,
+} = require('../controllers/sharedProjectsByParamsController');
 
 const router = express.Router();
 
@@ -66,17 +78,29 @@ router.get('/inventions', getInventions);
 // Сохранить новый проект
 router.post('/save-project', saveProject);
 
+// Сохранить новый доступный мне проект
+router.post('/save-shared-project', saveSharedProject);
+
 // Число проектов для userId
 router.post('/projects-length', getProjectsLength);
 
 // Все проекты по поисковым параметрам
 router.post('/projects', getProjectsByParams);
 
+// Все доступные мне проекты по поисковым параметрам
+router.post('/shared-projects', getSharedProjectsByParams);
+
 // Проект по названию
 router.get('/projects/:name', getProjectByName);
 
+// Доступный мне проект по названию
+router.post('/shared-projects/:name', getSharedProjectByName);
+
 // Удалить проект по названию
 router.delete('/projects', removeProjectByName);
+
+// Удалить доступный мне проект по названию
+router.delete('/shared-projects', removeSharedProjectByName);
 
 // Handle 404 error
 router.get('*', getErr);

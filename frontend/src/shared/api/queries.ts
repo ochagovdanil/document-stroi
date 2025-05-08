@@ -11,6 +11,8 @@ import {
 	getProjectByName,
 	getProjectsByParams,
 	getProjectsLengthByUid,
+	getSharedProjectByName,
+	getSharedProjectsByParams,
 	getSpecialCases,
 	getSpecialClimateZones,
 	getStages,
@@ -116,11 +118,32 @@ export function useProjectsByParams(uid: string, searchParams: SearchParams) {
 	});
 }
 
+// Все доступные мне проекты по параметрам поиска
+export function useSharedProjectsByParams(
+	uid: string,
+	searchParams: SearchParams
+) {
+	return useQuery({
+		queryKey: computed(() => ['shared-projects', uid, searchParams]),
+		queryFn: () => getSharedProjectsByParams(uid, searchParams),
+		enabled: computed(() => uid !== ''), // perform this post request only if the search param persists
+	});
+}
+
 // Проект по названию
 export function useProjectByName(name: string) {
 	return useQuery({
 		queryKey: computed(() => ['projects', name]),
 		queryFn: () => getProjectByName(name),
 		enabled: computed(() => name !== ''), // perform this post request only if the search param persists
+	});
+}
+
+// Доступный мне проект по названию
+export function useSharedProjectByName(uid: string, name: string) {
+	return useQuery({
+		queryKey: computed(() => ['shared-projects', uid, name]),
+		queryFn: () => getSharedProjectByName(uid, name),
+		enabled: computed(() => name !== '' && uid !== ''), // perform this post request only if the search param persists
 	});
 }

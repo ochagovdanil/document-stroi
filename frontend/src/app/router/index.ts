@@ -49,6 +49,27 @@ const router = createRouter({
 			},
 		},
 		{
+			path: '/shared',
+			name: 'shared',
+			component: () => import('@/pages/SharedView.vue'),
+			meta: {
+				requiresAuth: true,
+				title: 'Доступные мне проекты',
+			},
+		},
+		{
+			path: '/shared/:name',
+			name: 'shared-current',
+			component: () => import('@/pages/SharedCurrentView.vue'),
+			meta: {
+				requiresAuth: true, // Only for authenticated users
+			},
+			beforeEnter: (to, _from, next) => {
+				document.title = to.params.name as string;
+				next();
+			},
+		},
+		{
 			path: '/new-project',
 			name: 'new-project',
 			component: () => import('@/pages/NewProjectView.vue'),

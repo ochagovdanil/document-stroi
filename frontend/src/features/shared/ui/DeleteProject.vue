@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { useRemoveProjectByName } from '@/shared/api/mutations';
+import { useRemoveSharedProjectByName } from '@/shared/api/mutations';
 import useConfirmDialog from '@/shared/model/composables/useConfirmDialog';
 import useToastMessage from '@/shared/model/composables/useToastMessage';
-import { useRouter, type Router } from 'vue-router';
 
 const { uid, projectName } = defineProps<{
 	uid: string;
@@ -12,13 +11,11 @@ const { uid, projectName } = defineProps<{
 const confirmDialog = useConfirmDialog();
 const toastMessage = useToastMessage();
 
-const router: Router = useRouter();
-
-const { mutateAsync, isPending } = useRemoveProjectByName(uid);
+const { mutateAsync, isPending } = useRemoveSharedProjectByName(uid);
 
 function handleClick() {
 	confirmDialog(
-		`Вы действительно хотите удалить проект "${projectName}"?`,
+		`Вы действительно хотите удалить доступный вам проект "${projectName}"?`,
 		'Внимание!',
 		'pi pi-exclamation-triangle',
 		{
@@ -35,15 +32,17 @@ function handleClick() {
 			try {
 				await mutateAsync(projectName);
 
-				router.push({ name: 'projects' });
-
 				toastMessage(
 					'success',
 					'Успешно!',
-					`Проект "${projectName}" был удален!`
+					`Доступный проект "${projectName}" был удален!`
 				);
 			} catch (error: any) {
-				toastMessage('error', 'Ошибка при удалении проекта!', error);
+				toastMessage(
+					'error',
+					'Ошибка при удалении доступного проекта!',
+					error
+				);
 			}
 		},
 		() => {}
@@ -53,11 +52,19 @@ function handleClick() {
 
 <template>
 	<button
-		class="bg-secondary-dark text-primary rounded-md py-2 w-[32rem] text-lg mt-4 border-2 border-content shadow-md cursor-pointer hover:bg-secondary"
-		@click="handleClick"
+		class="bg-tertiary self-center rounded-e-lg mr-[-3rem] shadow-lg hover:bg-tertiary-dark"
+		title="Удалить проект"
+		@click.stop="handleClick"
 	>
-		<i v-if="isPending" class="pi pi-spin pi-spinner text-primary"></i>
-		<i v-else class="pi pi-eraser text-primary"></i>
-		Удалить проект
+		<i
+			v-if="isPending"
+			class="pi pi-spin pi-spinner p-6 text-secondary-dark"
+			style="font-size: 1.2rem"
+		></i>
+		<i
+			v-else
+			class="pi pi-trash p-6 text-secondary-dark"
+			style="font-size: 1.2rem"
+		></i>
 	</button>
 </template>

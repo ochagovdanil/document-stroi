@@ -9,6 +9,7 @@ import type OksType from '@/entities/OksType';
 import type ProjectCard from '@/entities/ProjectCard';
 import type ProjectDetails from '@/entities/ProjectDetails';
 import type SearchParams from '@/entities/SearchParams';
+import type SharedProjectCard from '@/entities/SharedProjectCard';
 import type SpecialCase from '@/entities/SpecialCase';
 import type SpecialClimateZone from '@/entities/SpecialClimateZone';
 import type Stage from '@/entities/Stage';
@@ -107,6 +108,16 @@ export const saveProject = async (userId: string, project: ProjectDetails) => {
 	).data;
 };
 
+// Сохранить новый доступный мне проект от текущего юзера
+export const saveSharedProject = async (userId: string, sharedUri: string) => {
+	return (
+		await axiosInstance.post<any>('/save-shared-project', {
+			userId,
+			uri: sharedUri,
+		})
+	).data;
+};
+
 // Количество проектов для userId
 export const getProjectsLengthByUid = async (uid: string) => {
 	return (
@@ -131,6 +142,21 @@ export const getProjectsByParams = async (
 	).data;
 };
 
+// Все доступные мне проекты по параметрам поиска
+export const getSharedProjectsByParams = async (
+	uid: string,
+	searchParams: SearchParams
+) => {
+	return (
+		await axiosInstance.post<SharedProjectCard[]>('/shared-projects', {
+			uid,
+			query: searchParams.searchField,
+			dateStart: searchParams.dateStart,
+			dateEnd: searchParams.dateEnd,
+		})
+	).data;
+};
+
 // Удалить проект по его названию
 export const removeProjectByName = async (name: string) => {
 	return (
@@ -142,11 +168,35 @@ export const removeProjectByName = async (name: string) => {
 	).data;
 };
 
-// Проекты по его названию
+// Удалить доступный мне проект по его названию
+export const removeSharedProjectByName = async (uid: string, name: string) => {
+	return (
+		await axiosInstance.delete<string>('/shared-projects', {
+			data: {
+				uid,
+				name,
+			},
+		})
+	).data;
+};
+
+// Проект по его названию
 export const getProjectByName = async (name: string) => {
 	return (
 		await axiosInstance.get<ProjectCard>(
 			`/projects/${encodeURIComponent(name)}`
+		)
+	).data;
+};
+
+// Доступный мне проект по его названию
+export const getSharedProjectByName = async (uid: string, name: string) => {
+	return (
+		await axiosInstance.post<SharedProjectCard>(
+			`/shared-projects/${encodeURIComponent(name)}`,
+			{
+				uid,
+			}
 		)
 	).data;
 };

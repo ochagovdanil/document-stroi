@@ -1,23 +1,28 @@
 <script setup lang="ts">
 import dummy from '@/app/ui/assets/new-project-dummy.jpg';
 import type Document from '@/entities/Document';
-import InsertDocumentManually from '@/features/project/ui/InsertDocumentManually.vue';
-import RemoveProject from '@/features/project/ui/RemoveProject.vue';
-import RemoveSelectedDocuments from '@/features/project/ui/RemoveSelectedDocuments.vue';
-import { useProjectByName } from '@/shared/api/queries';
+import ExportCSV from '@/features/shared-current/ui/ExportCSV.vue';
+import InsertDocumentManually from '@/features/shared-current/ui/InsertDocumentManually.vue';
+import RemoveProject from '@/features/shared-current/ui/RemoveProject.vue';
+import RemoveSelectedDocuments from '@/features/shared-current/ui/RemoveSelectedDocuments.vue';
+import SaveProject from '@/features/shared-current/ui/SaveProject.vue';
+import { useSharedProjectByName } from '@/shared/api/queries';
+import { getAuth, type User } from 'firebase/auth';
 import { Column, DataTable, Select } from 'primevue';
 import { ref } from 'vue';
 import { useRoute, useRouter, type Router } from 'vue-router';
 import EditDocument from './EditDocument.vue';
-import ExportCSV from '@/features/project/ui/ExportCSV.vue';
-import SaveProject from '@/features/project/ui/SaveProject.vue';
-import ShareProject from '@/features/project/ui/ShareProject.vue';
 
 const route = useRoute();
 const router: Router = useRouter();
 const projectName: string = route.params.name as string;
 
-const { data, isFetching, isError } = useProjectByName(projectName);
+const currentUser: User = getAuth().currentUser!;
+
+const { data, isFetching, isError } = useSharedProjectByName(
+	currentUser.uid,
+	projectName
+);
 
 const selectedDocuments = ref<Document[]>([]); // Выбранные записи в таблице
 const dt = ref<InstanceType<typeof DataTable>>();
@@ -44,12 +49,17 @@ const dt = ref<InstanceType<typeof DataTable>>();
 			>
 				<i class="pi pi-caret-left mr-2"></i>Вернуться назад
 			</p>
+			<p class="text-xl">
+				(режим
+				{{ data.access === 'r' ? 'просмотра' : 'редактирования' }})
+			</p>
 			<p
 				class="text-3xl text-accent font-semibold pt-8 mb-10 after:w-28 after:h-[0.2rem] after:bg-tertiary-dark after:mx-auto after:block after:mt-3"
 			>
 				Сведения о
 				<span class="bg-secondary-dark">{{ data.name }}</span>
 				<i
+					v-if="data.access === 'w'"
 					class="pi pi-pencil pl-2 text-success cursor-pointer hover:text-success-light"
 					style="font-size: 1.4rem"
 				></i>
@@ -63,7 +73,10 @@ const dt = ref<InstanceType<typeof DataTable>>();
 					alt="Изображение проекта"
 					title="Изображение проекта"
 				/>
-				<div class="absolute right-[-2rem] top-0 flex flex-col gap-4">
+				<div
+					class="absolute right-[-2rem] top-0 flex flex-col gap-4"
+					v-if="data.access === 'w'"
+				>
 					<i
 						class="pi pi-pencil text-success cursor-pointer hover:text-success-light"
 						style="font-size: 1.2rem"
@@ -85,33 +98,37 @@ const dt = ref<InstanceType<typeof DataTable>>();
 						checkmark
 						:default-value="3"
 						size="small"
+						:disabled="data.access === 'r'"
 					/>
 				</div>
 				<p class="text-accent text-lg">
 					Дата начала: {{ data.dateStart || 'не указана' }}
 					<i
 						class="pi pi-pencil cursor-pointer hover:text-secondary"
+						v-if="data.access === 'w'"
 					></i>
 				</p>
 				<p class="text-accent text-lg">
 					Дата окончания: {{ data.dateEnd || 'не указана' }}
 					<i
 						class="pi pi-pencil cursor-pointer hover:text-secondary"
+						v-if="data.access === 'w'"
 					></i>
 				</p>
 				<div class="flex flex-col">
-					<ShareProject :shareUri="data._id" />
-					<SaveProject />
+					<SaveProject v-if="data.access === 'w'" />
 					<RemoveProject
 						:uid="data.userId"
 						:projectName="data.name"
+						v-if="data.access === 'w'"
 					/>
 				</div>
 			</div>
 		</div>
 		<div class="grid grid-cols-2 gap-4 mt-8">
-			<InsertDocumentManually />
+			<InsertDocumentManually v-if="data.access === 'w'" />
 			<RemoveSelectedDocuments
+				v-if="data.access === 'w'"
 				:selectedDocuments
 				@onRemoved="() => (selectedDocuments = [])"
 			/>
@@ -141,7 +158,7 @@ const dt = ref<InstanceType<typeof DataTable>>();
 			<Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
 			<Column field="name" header="Название документа" sortable></Column>
 			<Column field="link" header="Ссылка на документ" sortable></Column>
-			<Column header="Изменить">
+			<Column header="Изменить" v-if="data.access === 'w'">
 				<template #body> <EditDocument /> </template
 			></Column>
 		</DataTable>
