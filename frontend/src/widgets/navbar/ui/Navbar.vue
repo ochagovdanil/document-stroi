@@ -59,6 +59,19 @@ onMounted(() => {
 						>
 					</li>
 					<li>
+						<RouterLink
+							:to="{ name: 'new-documents' }"
+							class="relative py-2 px-3 text-accent cursor-pointer rounded-full hover:text-primary hover:bg-accent"
+							activeClass="bg-accent text-primary"
+						>
+							<i class="pi pi-bell" style="font-size: 1.2rem">
+								<div
+									class="absolute top-1 right-2 h-2 w-2 bg-red-500 rounded-full"
+								></div>
+							</i>
+						</RouterLink>
+					</li>
+					<li>
 						<ProfileCircle />
 					</li>
 				</ul>

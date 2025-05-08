@@ -67,6 +67,15 @@ const router = createRouter({
 			},
 		},
 		{
+			path: '/new-documents',
+			name: 'new-documents',
+			component: () => import('@/pages/NewDocumentsView.vue'),
+			meta: {
+				requiresAuth: true,
+				title: 'Актуальные версии документов',
+			},
+		},
+		{
 			path: '/:catchAll(.*)',
 			name: 'not-found',
 			component: () => import('@/pages/NotFoundView.vue'),
