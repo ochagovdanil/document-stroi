@@ -5,11 +5,12 @@ import InsertDocumentManually from '@/features/project/ui/InsertDocumentManually
 import RemoveProject from '@/features/project/ui/RemoveProject.vue';
 import RemoveSelectedDocuments from '@/features/project/ui/RemoveSelectedDocuments.vue';
 import { useProjectByName } from '@/shared/api/queries';
-import { Column, DataTable } from 'primevue';
+import { Column, DataTable, Select } from 'primevue';
 import { ref } from 'vue';
 import { useRoute, useRouter, type Router } from 'vue-router';
 import EditDocument from './EditDocument.vue';
 import ExportCSV from '@/features/project/ui/ExportCSV.vue';
+import SaveProject from '@/features/project/ui/SaveProject.vue';
 
 const route = useRoute();
 const router: Router = useRouter();
@@ -76,6 +77,15 @@ const dt = ref<InstanceType<typeof DataTable>>();
 				</div>
 			</div>
 			<div>
+				<div class="flex gap-4 items-center mb-2">
+					<span class="text-accent text-lg">Версия проекта:</span>
+					<Select
+						:options="[3, 2, 1]"
+						checkmark
+						:default-value="3"
+						size="small"
+					/>
+				</div>
 				<p class="text-accent text-lg">
 					Дата начала: {{ data.dateStart || 'не указана' }}
 					<i
@@ -88,7 +98,13 @@ const dt = ref<InstanceType<typeof DataTable>>();
 						class="pi pi-pencil cursor-pointer hover:text-secondary"
 					></i>
 				</p>
-				<RemoveProject :uid="data.userId" :projectName="data.name" />
+				<div class="flex flex-col">
+					<SaveProject />
+					<RemoveProject
+						:uid="data.userId"
+						:projectName="data.name"
+					/>
+				</div>
 			</div>
 		</div>
 		<div class="grid grid-cols-2 gap-4 mt-8">

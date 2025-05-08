@@ -53,7 +53,7 @@ function handleClick() {
 
 <template>
 	<button
-		class="bg-secondary-dark text-primary rounded-md py-2 px-32 text-lg mt-6 mb-10 border-2 border-content shadow-md cursor-pointer hover:bg-tertiary"
+		class="bg-secondary-dark text-primary rounded-md py-2 w-[32rem] text-lg mt-4 border-2 border-content shadow-md cursor-pointer hover:bg-tertiary"
 		@click="handleClick"
 	>
 		<i v-if="isPending" class="pi pi-spin pi-spinner text-primary"></i>
