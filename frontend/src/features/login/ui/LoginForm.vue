@@ -107,8 +107,7 @@ function signInWithGoogle(): void {
 				@click="signInWithGoogle"
 				class="bg-slate-800 text-slate-200 font-medium w-full py-3 mt-3 rounded-full hover:bg-slate-700"
 			>
-				Войти через
-				<i class="pi pi-google"></i>
+				Войти через почту
 			</button>
 		</div>
 	</div>
