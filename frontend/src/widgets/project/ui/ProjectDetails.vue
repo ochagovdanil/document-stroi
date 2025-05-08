@@ -139,7 +139,16 @@ const dt = ref<InstanceType<typeof DataTable>>();
 				</div>
 			</template>
 			<Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-			<Column field="name" header="Название документа" sortable></Column>
+			<Column field="name" header="Название документа" sortable>
+				<template #body="slotProps">
+					<a
+						:href="slotProps.data.link"
+						target="_blank"
+						class="text-blue-600 underline"
+						>{{ slotProps.data.name }}</a
+					></template
+				></Column
+			>
 			<Column field="link" header="Ссылка на документ" sortable></Column>
 			<Column header="Изменить">
 				<template #body> <EditDocument /> </template
