@@ -10,6 +10,8 @@ const newDocument = ref<Document>({
 	name: '',
 	link: '',
 	document_id: -1, // Документ добавленный ручным способом имеет ИД равное 1. При сохранении проекта ИД будет incremented автоматически
+	category: '',
+	type: '',
 });
 
 const toastMessage = useToastMessage();
@@ -17,7 +19,12 @@ const toastMessage = useToastMessage();
 const { insertDocuments } = useNewProjectDetailsStore();
 
 function addNewDocument() {
-	if (newDocument.value.name !== '' && newDocument.value.link !== '') {
+	if (
+		newDocument.value.name !== '' &&
+		newDocument.value.link !== '' &&
+		newDocument.value.category !== '' &&
+		newDocument.value.type !== ''
+	) {
 		const documentToInsert: Document = { ...newDocument.value };
 		insertDocuments(documentToInsert);
 
@@ -33,6 +40,8 @@ watch(isDialogVisible, newVal => {
 			name: '',
 			link: '',
 			document_id: -1,
+			category: '',
+			type: '',
 		});
 });
 </script>
@@ -53,7 +62,7 @@ watch(isDialogVisible, newVal => {
 		header="Добавить новый нормативный документ"
 		:dismissableMask="true"
 	>
-		<div>
+		<div class="grid grid-cols-[repeat(2, 1fr)] gap-4">
 			<span class="mr-4">Название документа:</span>
 			<input
 				type="text"
@@ -61,14 +70,25 @@ watch(isDialogVisible, newVal => {
 				class="border-2 border-content rounded-md py-2 px-3 w-[40rem]"
 				v-model="newDocument.name"
 			/>
-		</div>
-		<div class="mt-4">
 			<span class="mr-4">Ссылка на документ:</span>
 			<input
 				type="text"
 				placeholder="Введите значение"
 				class="border-2 border-content rounded-md py-2 px-3 w-[40rem]"
 				v-model="newDocument.link"
+			/>
+			<span class="mr-4">Категория документа:</span>
+			<input
+				type="text"
+				placeholder="Введите значение"
+				class="border-2 border-content rounded-md py-2 px-3 w-[40rem]"
+				v-model="newDocument.category"
+			/><span class="mr-4">Тип категории:</span>
+			<input
+				type="text"
+				placeholder="Введите значение"
+				class="border-2 border-content rounded-md py-2 px-3 w-[40rem]"
+				v-model="newDocument.type"
 			/>
 		</div>
 		<template #footer>

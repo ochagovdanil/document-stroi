@@ -5,7 +5,7 @@ import InsertDocumentManually from '@/features/project/ui/InsertDocumentManually
 import RemoveProject from '@/features/project/ui/RemoveProject.vue';
 import RemoveSelectedDocuments from '@/features/project/ui/RemoveSelectedDocuments.vue';
 import { useProjectByName } from '@/shared/api/queries';
-import { Column, DataTable, Select } from 'primevue';
+import { Column, DataTable, RadioButton, Select } from 'primevue';
 import { ref } from 'vue';
 import { useRoute, useRouter, type Router } from 'vue-router';
 import EditDocument from './EditDocument.vue';
@@ -21,6 +21,7 @@ const { data, isFetching, isError } = useProjectByName(projectName);
 
 const selectedDocuments = ref<Document[]>([]); // Выбранные записи в таблице
 const dt = ref<InstanceType<typeof DataTable>>();
+const groupRowsBy = ref<'category' | 'type'>('category'); // По какой колонке группируем данные в таблице
 </script>
 
 <template>
@@ -130,13 +131,48 @@ const dt = ref<InstanceType<typeof DataTable>>();
 			:rows-per-page-options="[10, 15, 20, 25, 30, 35, 40, 45, 50]"
 			sortMode="multiple"
 			ref="dt"
-			class="mb-8"
+			class="mb-8 bg-white"
 			:export-filename="data.name"
+			rowGroupMode="subheader"
+			:groupRowsBy="groupRowsBy"
 		>
 			<template #header>
-				<div class="text-end">
+				<div class="flex justify-between items-center">
+					<div class="flex gap-2">
+						<p>Группировать по:</p>
+						<div>
+							<RadioButton
+								v-model="groupRowsBy"
+								inputId="category"
+								name="category"
+								value="category"
+							/>
+							<label for="category" class="ml-2">категории</label>
+						</div>
+						<div>
+							<RadioButton
+								v-model="groupRowsBy"
+								inputId="type"
+								name="type"
+								value="type"
+							/>
+							<label for="type" class="ml-2">типу</label>
+						</div>
+					</div>
 					<ExportCSV @onExport="() => dt?.exportCSV()" />
 				</div>
+			</template>
+			<!-- Групповой заголовок -->
+			<template #groupheader="slotProps">
+				<p
+					class="text-lg text-center italic"
+					v-if="groupRowsBy === 'category'"
+				>
+					{{ slotProps.data.category }}
+				</p>
+				<p class="text-lg text-center italic" v-else>
+					{{ slotProps.data.type }}
+				</p>
 			</template>
 			<Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
 			<Column field="name" header="Название документа" sortable>
@@ -149,6 +185,18 @@ const dt = ref<InstanceType<typeof DataTable>>();
 					></template
 				></Column
 			>
+			<Column
+				field="type"
+				header="Тип"
+				sortable
+				v-if="groupRowsBy === 'category'"
+			></Column>
+			<Column
+				field="category"
+				header="Категория"
+				sortable
+				v-else
+			></Column>
 			<Column field="link" header="Ссылка на документ" sortable></Column>
 			<Column header="Изменить">
 				<template #body> <EditDocument /> </template

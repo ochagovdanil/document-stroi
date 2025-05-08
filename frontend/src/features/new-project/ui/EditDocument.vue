@@ -12,6 +12,8 @@ const currentDocument = ref<Document>({
 	name: document.name,
 	link: document.link,
 	document_id: document.document_id,
+	category: document.category,
+	type: document.type,
 });
 
 const toastMessage = useToastMessage();
@@ -20,7 +22,9 @@ const { updateDocument } = useNewProjectDetailsStore();
 function editDocument() {
 	if (
 		currentDocument.value.name !== '' &&
-		currentDocument.value.link !== ''
+		currentDocument.value.link !== '' &&
+		currentDocument.value.category !== '' &&
+		currentDocument.value.type !== ''
 	) {
 		try {
 			// Обновляем нормативный документ
@@ -45,6 +49,8 @@ watch(isDialogVisible, newVal => {
 			name: document.name,
 			link: document.link,
 			document_id: document.document_id,
+			category: document.category,
+			type: document.type,
 		});
 });
 </script>
@@ -62,7 +68,7 @@ watch(isDialogVisible, newVal => {
 		header="Редактировать нормативный документ"
 		:dismissableMask="true"
 	>
-		<div>
+		<div class="grid grid-cols-[repeat(2, 1fr)] gap-4">
 			<span class="mr-4">Название документа:</span>
 			<input
 				type="text"
@@ -70,14 +76,25 @@ watch(isDialogVisible, newVal => {
 				class="border-2 border-content rounded-md py-2 px-3 w-[40rem]"
 				v-model="currentDocument.name"
 			/>
-		</div>
-		<div class="mt-4">
 			<span class="mr-4">Ссылка на документ:</span>
 			<input
 				type="text"
 				placeholder="Введите значение"
 				class="border-2 border-content rounded-md py-2 px-3 w-[40rem]"
 				v-model="currentDocument.link"
+			/>
+			<span class="mr-4">Категория документа:</span>
+			<input
+				type="text"
+				placeholder="Введите значение"
+				class="border-2 border-content rounded-md py-2 px-3 w-[40rem]"
+				v-model="currentDocument.category"
+			/><span class="mr-4">Тип категории:</span>
+			<input
+				type="text"
+				placeholder="Введите значение"
+				class="border-2 border-content rounded-md py-2 px-3 w-[40rem]"
+				v-model="currentDocument.type"
 			/>
 		</div>
 		<template #footer>
