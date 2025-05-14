@@ -127,6 +127,18 @@ export const getProjectsLengthByUid = async (uid: string) => {
 	).data;
 };
 
+// Количество доступным мне проектов для userId
+export const getSharedProjectsLengthByUid = async (uid: string) => {
+	return (
+		await axiosInstance.post<{ length: number }>(
+			'/shared-projects-length',
+			{
+				uid,
+			}
+		)
+	).data;
+};
+
 // Все проекты по параметрам поиска
 export const getProjectsByParams = async (
 	uid: string,

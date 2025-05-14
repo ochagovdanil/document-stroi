@@ -24,6 +24,9 @@ const {
 	getProjectsLength,
 } = require('../controllers/projectsLengthController');
 const {
+	getSharedProjectsLength,
+} = require('../controllers/sharedProjectsLengthController');
+const {
 	getProjectsByParams,
 } = require('../controllers/projectsByParamsController');
 const {
@@ -83,6 +86,9 @@ router.post('/save-shared-project', saveSharedProject);
 
 // Число проектов для userId
 router.post('/projects-length', getProjectsLength);
+
+// Число доступных мне проектов для userId
+router.post('/shared-projects-length', getSharedProjectsLength);
 
 // Все проекты по поисковым параметрам
 router.post('/projects', getProjectsByParams);

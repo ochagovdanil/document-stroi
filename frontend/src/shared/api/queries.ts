@@ -13,6 +13,7 @@ import {
 	getProjectsLengthByUid,
 	getSharedProjectByName,
 	getSharedProjectsByParams,
+	getSharedProjectsLengthByUid,
 	getSpecialCases,
 	getSpecialClimateZones,
 	getStages,
@@ -105,6 +106,15 @@ export function useProjectsLengthByUid(uid: string) {
 	return useQuery({
 		queryKey: computed(() => ['projects-length', uid]),
 		queryFn: () => getProjectsLengthByUid(uid),
+		enabled: computed(() => uid !== ''), // perform this post request only if the search param persists
+	});
+}
+
+// Количество доступных мне проектов для userId
+export function useSharedProjectsLengthByUid(uid: string) {
+	return useQuery({
+		queryKey: computed(() => ['shared-projects-length', uid]),
+		queryFn: () => getSharedProjectsLengthByUid(uid),
 		enabled: computed(() => uid !== ''), // perform this post request only if the search param persists
 	});
 }
