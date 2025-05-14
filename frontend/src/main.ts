@@ -15,6 +15,7 @@ import ConfirmationService from 'primevue/confirmationservice';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 
 import { initializeApp } from 'firebase/app';
+import { definePreset } from '@primevue/themes';
 
 // Init Firebase O-Auth
 const firebaseConfig = {
@@ -28,6 +29,25 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
+// Override PrimeVue primary color
+const MyPreset = definePreset(Aura, {
+	semantic: {
+		primary: {
+			50: '{slate.50}',
+			100: '{slate.100}',
+			200: '{slate.200}',
+			300: '{slate.300}',
+			400: '{slate.400}',
+			500: '{slate.500}',
+			600: '{slate.600}',
+			700: '{slate.700}',
+			800: '{slate.800}',
+			900: '{slate.900}',
+			950: '{slate.950}',
+		},
+	},
+});
+
 // Init Vue.js app
 const app = createApp(App);
 
@@ -35,7 +55,7 @@ app.use(createPinia())
 	.use(router)
 	.use(PrimeVue, {
 		theme: {
-			preset: Aura,
+			preset: MyPreset,
 		},
 		ripple: true,
 	})
