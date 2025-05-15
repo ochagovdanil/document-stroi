@@ -55,7 +55,7 @@ function deleteAccount() {
 <template>
 	<button
 		@click="deleteAccount"
-		class="bg-secondary font-semibold text-lg mt-8 py-2 px-8 rounded-full shadow-md border-primary border-2 hover:bg-tertiary hover:text-secondary"
+		class="bg-secondary font-semibold text-lg py-2 px-8 rounded-full shadow-md border-primary border-2 hover:bg-tertiary hover:text-secondary"
 	>
 		Удалить аккаунт
 	</button>

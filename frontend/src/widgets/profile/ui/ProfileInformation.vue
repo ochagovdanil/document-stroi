@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ChangePassword from '@/features/profile/ui/ChangePassword.vue';
 import DeleteAccount from '@/features/profile/ui/DeleteAccount.vue';
 import {
 	useProjectsLengthByUid,
@@ -93,5 +94,8 @@ const {
 			currentUser?.metadata?.lastSignInTime ?? '-'
 		}}</span>
 	</p>
-	<DeleteAccount :currentUser />
+	<div class="flex gap-4 mt-8">
+		<ChangePassword />
+		<DeleteAccount :currentUser />
+	</div>
 </template>

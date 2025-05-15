@@ -93,6 +93,13 @@ function signInWithGoogle(): void {
 						class="text-secondary font-semibold"
 					/>
 				</div>
+				<div class="text-center">
+					<p
+						class="underline inline-block hover:text-secondary cursor-pointer"
+					>
+						Забыли пароль?
+					</p>
+				</div>
 				<button
 					class="bg-secondary font-semibold w-full py-3 my-3 rounded-full border-content border-2 hover:bg-accent hover:text-secondary"
 				>

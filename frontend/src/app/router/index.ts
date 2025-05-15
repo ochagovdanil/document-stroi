@@ -79,6 +79,15 @@ const router = createRouter({
 			},
 		},
 		{
+			path: '/scheme',
+			name: 'scheme',
+			component: () => import('@/pages/SchemeView.vue'),
+			meta: {
+				requiresAuth: true,
+				title: 'Сруктурная схема',
+			},
+		},
+		{
 			path: '/profile',
 			name: 'profile',
 			component: () => import('@/pages/ProfileView.vue'),

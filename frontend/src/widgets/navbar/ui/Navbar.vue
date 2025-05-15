@@ -74,6 +74,14 @@ onMounted(() => {
 					</li>
 					<li>
 						<RouterLink
+							:to="{ name: 'scheme' }"
+							class="py-2 px-3 rounded-full text-accent hover:text-primary hover:bg-accent"
+							activeClass="bg-accent text-primary"
+							><i class="pi pi-sitemap mr-2"></i>Структурная схема
+						</RouterLink>
+					</li>
+					<li>
+						<RouterLink
 							:to="{ name: 'new-documents' }"
 							class="relative py-2 px-3 text-accent cursor-pointer rounded-full hover:text-primary hover:bg-accent"
 							activeClass="bg-accent text-primary"
