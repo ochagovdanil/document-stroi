@@ -12,6 +12,7 @@ import { Column, DataTable, Select, RadioButton } from 'primevue';
 import { ref } from 'vue';
 import { useRoute, useRouter, type Router } from 'vue-router';
 import EditDocument from './EditDocument.vue';
+import ExportWord from '@/features/shared-current/ui/ExportWord.vue';
 
 const route = useRoute();
 const router: Router = useRouter();
@@ -176,7 +177,14 @@ const groupRowsBy = ref<'category' | 'type'>('category'); // По какой к�
 							<label for="type" class="ml-2">типу</label>
 						</div>
 					</div>
-					<ExportCSV @onExport="() => dt?.exportCSV()" />
+					<div class="flex gap-4">
+						<ExportWord
+							:projectName="data.name"
+							:documents="data.documents"
+							:groupRowsBy="groupRowsBy"
+						/>
+						<ExportCSV @onExport="() => dt?.exportCSV()" />
+					</div>
 				</div>
 			</template>
 			<!-- Групповой заголовок -->

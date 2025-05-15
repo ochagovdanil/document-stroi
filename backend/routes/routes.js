@@ -42,6 +42,7 @@ const {
 const {
 	getSharedProjectsByParams,
 } = require('../controllers/sharedProjectsByParamsController');
+const { exportWord } = require('../controllers/exportWordController');
 
 const router = express.Router();
 
@@ -107,6 +108,9 @@ router.delete('/projects', removeProjectByName);
 
 // Удалить доступный мне проект по названию
 router.delete('/shared-projects', removeSharedProjectByName);
+
+// Экспорт нормативных документов в Word
+router.post('/export-word', exportWord);
 
 // Handle 404 error
 router.get('*', getErr);

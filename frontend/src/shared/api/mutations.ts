@@ -1,5 +1,6 @@
 import { QueryClient, useMutation, useQueryClient } from '@tanstack/vue-query';
 import {
+	exportWord,
 	getDocumentsByIds,
 	removeProjectByName,
 	removeSharedProjectByName,
@@ -75,5 +76,21 @@ export function useRemoveSharedProjectByName(uid: string) {
 					queryKey: ['shared-projects', uid],
 				});
 		},
+	});
+}
+
+// Экспорт таблицы в Word по ГОСТам
+export function useExportWord() {
+	return useMutation({
+		mutationFn: (params: {
+			projectName: string;
+			documents: Document[];
+			groupRowsBy: 'category' | 'type';
+		}) =>
+			exportWord(
+				params.projectName,
+				params.documents,
+				params.groupRowsBy
+			),
 	});
 }

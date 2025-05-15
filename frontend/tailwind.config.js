@@ -19,6 +19,7 @@ export default {
 				success: {
 					DEFAULT: '#02dfa7',
 					light: '#00FCBB',
+					dark: '#01c594',
 				},
 				// For background color
 				background: '#FDFDFD',

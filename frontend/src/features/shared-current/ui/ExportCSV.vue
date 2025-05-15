@@ -6,7 +6,7 @@ const emit = defineEmits<{
 
 <template>
 	<button
-		class="bg-primary text-white rounded-md py-2 px-4 cursor-pointer hover:bg-content"
+		class="bg-success-dark text-white rounded-md py-2 px-4 cursor-pointer hover:bg-success"
 		@click="emit('onExport')"
 	>
 		Экспорт в Excel

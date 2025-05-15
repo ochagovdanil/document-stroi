@@ -12,6 +12,7 @@ import EditDocument from './EditDocument.vue';
 import ExportCSV from '@/features/project/ui/ExportCSV.vue';
 import SaveProject from '@/features/project/ui/SaveProject.vue';
 import ShareProject from '@/features/project/ui/ShareProject.vue';
+import ExportWord from '@/features/project/ui/ExportWord.vue';
 
 const route = useRoute();
 const router: Router = useRouter();
@@ -159,7 +160,14 @@ const groupRowsBy = ref<'category' | 'type'>('category'); // По какой к�
 							<label for="type" class="ml-2">типу</label>
 						</div>
 					</div>
-					<ExportCSV @onExport="() => dt?.exportCSV()" />
+					<div class="flex gap-4">
+						<ExportWord
+							:projectName="data.name"
+							:documents="data.documents"
+							:groupRowsBy="groupRowsBy"
+						/>
+						<ExportCSV @onExport="() => dt?.exportCSV()" />
+					</div>
 				</div>
 			</template>
 			<!-- Групповой заголовок -->

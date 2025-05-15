@@ -212,3 +212,27 @@ export const getSharedProjectByName = async (uid: string, name: string) => {
 		)
 	).data;
 };
+
+// Экспорт в Word по ГОСТам
+export const exportWord = async (
+	projectName: string,
+	documents: Document[],
+	groupRowsBy: 'category' | 'type'
+) => {
+	return (
+		await axiosInstance.post<any>(
+			'/export-word',
+			{
+				projectName: projectName,
+				documents: documents,
+				groupRowsBy: groupRowsBy,
+			},
+			{
+				responseType: 'arraybuffer',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			}
+		)
+	).data;
+};
