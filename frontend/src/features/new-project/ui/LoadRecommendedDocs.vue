@@ -40,8 +40,8 @@ async function loadRecommendedDocuments() {
 		class="w-full my-8 font-semibold bg-tertiary-light py-3 border-2 border-content rounded-full shadow-md hover:bg-tertiary-dark"
 		@click="loadRecommendedDocuments"
 	>
-		<i class="pi pi-sparkles mr-2" v-if="!isPending"></i>
-		<i class="pi pi-spinner pi-spin mr-2" v-if="isPending"></i>
+		<i class="pi pi-sparkles" v-if="!isPending"></i>
+		<i class="pi pi-spinner pi-spin" v-if="isPending"></i>
 		Загрузить рекомендуемые документы
 	</button>
 </template>

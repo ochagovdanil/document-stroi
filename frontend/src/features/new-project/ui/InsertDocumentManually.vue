@@ -51,7 +51,7 @@ watch(isDialogVisible, newVal => {
 		class="w-full my-8 font-semibold bg-primary text-accent py-3 border-2 border-content rounded-full shadow-md hover:bg-accent hover:text-primary"
 		@click="isDialogVisible = true"
 	>
-		<i class="pi pi-plus mr-2"></i>
+		<i class="pi pi-plus"></i>
 		Добавить документ вручную
 	</button>
 

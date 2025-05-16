@@ -3,6 +3,7 @@ import type Document from '@/entities/Document';
 import EditDocument from '@/features/new-project/ui/EditDocument.vue';
 import InsertDocumentManually from '@/features/new-project/ui/InsertDocumentManually.vue';
 import LoadRecommendedDocs from '@/features/new-project/ui/LoadRecommendedDocs.vue';
+import LoadXML from '@/features/new-project/ui/LoadXML.vue';
 import RemoveSelectedDocuments from '@/features/new-project/ui/RemoveSelectedDocuments.vue';
 import SaveProject from '@/features/new-project/ui/SaveProject.vue';
 import { useNewProjectDetailsStore } from '@/shared/model/store/NewProjectDetails';
@@ -16,8 +17,9 @@ const groupRowsBy = ref<'category' | 'type'>('category'); // По какой к�
 </script>
 
 <template>
-	<div class="grid grid-cols-3 gap-4">
+	<div class="grid grid-cols-4 gap-4">
 		<LoadRecommendedDocs />
+		<LoadXML />
 		<InsertDocumentManually />
 		<RemoveSelectedDocuments
 			:selectedDocuments
