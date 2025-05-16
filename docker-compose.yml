@@ -1,0 +1,144 @@
+networks:
+    document-stroi:
+        external: true
+
+services:
+    frontend:
+        build:
+            dockerfile: ./frontend/Dockerfile
+        ports:
+            - '80:80'
+        restart: unless-stopped
+        depends_on:
+            - backend
+        networks:
+            - document-stroi
+
+    backend:
+        build:
+            dockerfile: ./backend/Dockerfile
+        restart: unless-stopped
+        ports:
+            - '8000:3001'
+        depends_on:
+            - mongodb
+        networks:
+            - document-stroi
+
+    mongodb:
+        image: mongo:8.0.9
+        restart: unless-stopped
+        ports:
+            - '27017:27017'
+        environment:
+            MONGO_INITDB_DATABASE: document-stroi # Имя базы данных
+            MONGO_INITDB_ROOT_USERNAME: admin # Логин администратора
+            MONGO_INITDB_ROOT_PASSWORD: secret # Пароль администратора
+        volumes:
+            - ./mongodb-data:/data/db
+
+    loki:
+        image: grafana/loki:2.9.0
+        volumes:
+            - /srv/grafana/loki:/etc/loki # loki-config.yml
+        ports:
+            - '3100:3100'
+        restart: unless-stopped
+        command: -config.file=/etc/loki/loki-config.yml
+        networks:
+            - document-stroi
+
+    alloy:
+        image: grafana/alloy:v1.8.1
+        volumes:
+            - /srv/grafana/alloy/config.alloy:/etc/alloy/config.alloy # config.alloy
+            - /var/lib/docker/containers:/var/lib/docker/containers
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /home/user/alloy-data:/var/lib/alloy/data
+        restart: unless-stopped
+        command: 'run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy'
+        ports:
+            - '12345:12345'
+            - '4317:4317'
+            - '4318:4318'
+        privileged: true
+        depends_on:
+            - loki
+        networks:
+            - document-stroi
+
+    grafana:
+        image: grafana/grafana:11.4.3
+        user: '239559' # Был получен командой 'id' в терминале, принадлежит <user-name> user ID
+        volumes:
+            # Убедитесь что юзер с таким ID имеет доступ к этому каталогу!
+            - /home/user/grafana-data:/var/lib/grafana
+        ports:
+            - '3000:3000'
+        environment:
+            - GF_SECURITY_ALLOW_EMBEDDING=true
+        restart: unless-stopped
+        depends_on:
+            - loki
+            - prometheus
+        networks:
+            - document-stroi
+
+    prometheus:
+        image: prom/prometheus:v3.2.1
+        volumes:
+            - /home/user/prometheus-data:/prometheus
+            - /srv/grafana/prometheus:/etc/prometheus # prometheus.yml
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/prometheus'
+            - '--storage.tsdb.retention.time=30d'
+            - '--storage.tsdb.retention.size=10GB'
+        restart: unless-stopped
+        ports:
+            - '9090:9090'
+        depends_on:
+            - node-exporter
+            - cadvisor
+            - nginx-exporter
+            - alloy
+        networks:
+            - document-stroi
+
+    node-exporter:
+        image: prom/node-exporter:v1.9.1
+        command:
+            - '--path.rootfs=/host'
+        pid: host
+        volumes:
+            - '/:/host:ro,rslave'
+        ports:
+            - '9100:9100'
+        restart: unless-stopped
+        networks:
+            - document-stroi
+
+    cadvisor:
+        image: gcr.io/cadvisor/cadvisor:v0.52.1
+        ports:
+            - 8080:8080
+        volumes:
+            - /:/rootfs:ro
+            - /run:/run:ro
+            - /sys:/sys:ro
+            - /var/lib/docker/:/var/lib/docker:ro
+            - /dev/disk/:/dev/disk:ro
+        devices:
+            - /dev/kmsg
+        privileged: true
+        restart: unless-stopped
+        networks:
+            - document-stroi
+
+    nginx-exporter:
+        image: nginx/nginx-prometheus-exporter:1.4.1
+        ports:
+            - '9113:9113'
+        command: '--nginx.scrape-uri=http://frontend/status/' # frontend - это docker compose имя сервиса в 'document-stroi' docker сети
+        networks:
+            - document-stroi
