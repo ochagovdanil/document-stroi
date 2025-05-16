@@ -68,3 +68,11 @@ function handleClick() {
 		></i>
 	</button>
 </template>
+
+<style scoped>
+@media (max-width: 53.125em) {
+	button {
+		display: none;
+	}
+}
+</style>

@@ -55,13 +55,13 @@ const router: Router = useRouter();
 					style="font-size: 0.9rem"
 				></i>
 			</p>
-			<p class="text-accent">
+			<p class="text-accent info">
 				Дата начала: {{ project.dateStart || 'не указана' }}
 			</p>
-			<p class="text-accent">
+			<p class="text-accent info">
 				Дата окончания: {{ project.dateEnd || 'не указана' }}
 			</p>
-			<p class="text-accent">
+			<p class="text-accent info">
 				Кол-во нормативных документов: {{ project.documents.length }}
 			</p>
 		</div>
@@ -72,3 +72,12 @@ const router: Router = useRouter();
 		></i>
 	</div>
 </template>
+
+<style scoped>
+@media (max-width: 48.125em) {
+	.pi-users,
+	.info {
+		display: none;
+	}
+}
+</style>

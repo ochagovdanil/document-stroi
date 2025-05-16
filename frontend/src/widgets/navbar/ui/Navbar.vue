@@ -98,6 +98,24 @@ onMounted(() => {
 					</li>
 				</ul>
 			</nav>
+			<div class="pi-menu hidden">
+				<i
+					class="pi pi-bars text-accent cursor-pointer mr-4"
+					style="font-size: 1.5rem"
+				></i>
+			</div>
 		</div>
 	</header>
 </template>
+
+<style scoped>
+@media (max-width: 81.25em) {
+	nav {
+		display: none;
+	}
+
+	.pi-menu {
+		display: block;
+	}
+}
+</style>

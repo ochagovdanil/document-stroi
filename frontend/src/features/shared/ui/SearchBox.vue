@@ -44,7 +44,7 @@ function clearSearchParams() {
 			v-model="searchParams.searchField"
 		/>
 		<div
-			class="bg-background px-4 h-[3.5rem] border-s-2 border-e-2 border-tertiary"
+			class="bg-background px-4 h-[3.5rem] border-s-2 border-e-2 border-tertiary filter-date-start"
 		>
 			<div class="h-full flex items-center gap-2">
 				<div class="h-full flex flex-col justify-center">
@@ -63,7 +63,7 @@ function clearSearchParams() {
 				></i>
 			</div>
 		</div>
-		<div class="bg-background px-4 h-[3.5rem]">
+		<div class="bg-background px-4 h-[3.5rem] filter-date-end">
 			<div class="h-full flex items-center gap-2">
 				<div class="h-full flex flex-col justify-center">
 					<p class="text-sm">Дата окончания:</p>
@@ -88,9 +88,14 @@ function clearSearchParams() {
 			]"
 			optionLabel="name"
 			v-model="selectedAccessRights"
-			class="h-[3.6rem] !border-3 !border-silver-100 !rounded-none"
+			class="h-[3.6rem] !border-3 !border-silver-100 !rounded-none filter-access-rights"
 			placeholder="Права доступа"
 		/>
+		<div
+			class="filter-options hidden bg-background py-[0.97rem] pr-2 cursor-pointer"
+		>
+			<i class="pi pi-ellipsis-v" style="font-size: 1.3rem"></i>
+		</div>
 		<button
 			class="text-background bg-secondary-dark h-[3.5rem] px-6 border-2 border-content rounded-e-2xl cursor-pointer hover:bg-secondary"
 			@click="clearSearchParams"
@@ -99,3 +104,17 @@ function clearSearchParams() {
 		</button>
 	</div>
 </template>
+
+<style scoped>
+@media (max-width: 64.375em) {
+	.filter-date-start,
+	.filter-date-end,
+	.filter-access-rights {
+		display: none;
+	}
+
+	.filter-options {
+		display: block;
+	}
+}
+</style>
