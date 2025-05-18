@@ -29,12 +29,12 @@ const { keyId, document } = defineProps<{
 				<p>
 					<i class="pi pi-times-circle mr-2 text-secondary-dark"></i
 					>Текущая версия документа:
-					<span class="underline">vX.X.X.X</span>
+					<span class="underline">50.13330.2012</span>
 				</p>
 				<p>
 					<i class="pi pi-verified mr-2 text-success"></i>Актуальная
 					версия документа:
-					<span class="underline">vX.X.X.X</span>
+					<span class="underline">50.13330.2024</span>
 				</p>
 				<p class="font-semibold mt-4">
 					Данный документ устарел в следующих проектах:
